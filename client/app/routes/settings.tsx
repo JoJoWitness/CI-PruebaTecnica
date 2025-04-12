@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Settings() {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language);
 
-  // Toggle the theme and save the preference in localStorage
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    setLanguage(lang);
+  };
+
   const toggleTheme = () => {
     const newTheme = !isDarkMode ? "dark" : "light";
     setIsDarkMode(!isDarkMode);
@@ -30,24 +37,25 @@ export default function Settings() {
 
   return (
       <section className="container py-20 px-16">
-            <h1 className="text-4xl text-primary font-bold mb-6">Ajustes</h1>
+            <h1 className="text-4xl text-primary font-bold mb-6">{t("settings")}</h1>
             
         <div className="container flex flex-col gap-6">
           <div className="flex flex-col gap-4">
             <p className="text-2xl text-text-secondary dark:text-dark-text-secondary">
-              Cambiar Idioma
+            {t("changeLanguage")}
             </p>
             <select 
+              value={language}
+              onChange={(e) => changeLanguage(e.target.value)}
               className="w-40 p-3 bg-background-100 dark:bg-dark-background-100 text-text-secondary dark:text-dark-text-secondary rounded-md focus:outline-none border-primary dark:border-none border-2">
               <option value="es">Español</option>
               <option value="en">English</option>
             </select>
           </div>
 
-          {/* Theme Switch */}
           <div className="flex flex-col gap-4">
             <p className="text-2xl text-text-secondary dark:text-dark-text-secondary">
-              Cambiar Tema
+            {t("changeTheme")}
             </p>
             <label className="relative inline-flex items-center cursor-pointer">
               <input

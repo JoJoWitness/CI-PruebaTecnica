@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Project } from "~/components/project";
 
 const mockProjects = [
@@ -37,9 +38,10 @@ const mockProjects = [
 ];
 
 export default function Projects() {
+  const { t} = useTranslation();
   return (
       <section className="container py-20 px-16 h-full">
-        <h1 className="text-4xl text-primary font-bold mb-6">Proyectos</h1>
+        <h1 className="text-4xl text-primary font-bold mb-6">{t("projects")}</h1>
         <div className="container flex flex-col gap-6  h-160 overflow-y-scroll scrollbar-custom ">
           {mockProjects.map((project) => (
                 <Project key={project.id} project={project} />

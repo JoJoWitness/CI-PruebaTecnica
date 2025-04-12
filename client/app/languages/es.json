@@ -1,0 +1,42 @@
+{
+  "settings": "Ajustes",
+  "changeLanguage": "Cambiar Idioma",
+  "changeTheme": "Cambiar Tema",
+
+  "projects": "Proyectos",
+  "project": {
+    "title": "Proyecto",
+    "description": "Descripción",
+    "noDescription": "No se proporcionó descripción",
+    "owner": "Dueño",
+    "statusValue": "Estatus",
+    "createdAt": "Creado en",
+    "assignedUsers": "Trabajadores asignados",
+    "tasks": "Tareas",
+    "status": {
+      "pending": "Pendiente",
+      "inProgress": "En progreso",
+      "completed": "Completado"
+    }
+  },
+
+
+
+  
+  "tasks": "Tareas",
+  "task": {
+    "title": "Tarea",
+    "info": "Información",
+    "stat": "Estado",
+    "noDescription": "No se proporcionó descripción",
+    "project": "Proyecto",
+    "assignedTo": "Asignado a",
+    "createdAt": "Creado el",
+    "status": {
+      "pending": "Pendiente",
+      "inProgress": "En progreso",
+      "completed": "Completado"
+    }
+  }
+ 
+}

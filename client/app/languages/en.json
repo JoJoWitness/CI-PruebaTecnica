@@ -1,0 +1,42 @@
+{
+  "settings": "Settings",
+  "changeLanguage": "Change Language",
+  "changeTheme": "Change Theme",
+
+  "projects": "Projects",
+  "project": {
+    "title": "Project",
+    "description": "Description",
+    "noDescription": "No description provided",
+    "owner": "Owner",
+    "statusValues": "Status",
+    "createdAt": "Created At",
+    "assignedUsers": "Assigned Users",
+    "tasks": "Tasks",
+    "status": {
+      "pending": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    }
+  },
+
+  "tasks": "Tasks",
+  
+
+  "task": {
+    "title": "Task",
+    "info": "Information",
+    "stat": "Status",
+    "noDescription": "No description provided",
+    "project": "Project",
+    "assignedTo": "Assigned To",
+    "createdAt": "Created At",
+    "status": {
+      "pending": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    }
+  }
+  
+  
+}

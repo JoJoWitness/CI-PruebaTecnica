@@ -1,4 +1,5 @@
 import { Task } from "~/components/task";
+import { useTranslation } from "react-i18next";
 
 let props = {
   id: 1,
@@ -26,7 +27,6 @@ let props2 = {
 let props3 = {
   id: 1,
   title: "Fix Login Bug",
-  description: "Resolve the issue with user login.",
   project: "Website Redesign",
   assignedTo: "John Doe",
   status: "IN_PROGRESS" as "PENDING" | "IN_PROGRESS" | "COMPLETED",
@@ -35,18 +35,19 @@ let props3 = {
 }
 
 export default function Tasks() {
+  const {t} = useTranslation();
   return (
       <section className="container py-20 px-16">
-            <h1 className="text-4xl text-primary font-bold mb-6">Tareas</h1>
+            <h1 className="text-4xl text-primary font-bold mb-6">{t("tasks")}</h1>
             <div className="grid grid-cols-3 gap-4 bg-background-100 dark:bg-dark-background-100 py-4 px-12 rounded-lg  shadow-md mb-6 ">
               <p className="text-2xl font-bold text-text-primary dark:text-dark-text-primary ">
-                Tarea
+                {t("task.title")}
               </p>
               <p className="text-2xl font-bold text-text-primary dark:text-dark-text-secondary">
-                Estatus
+              {t("task.stat")}
               </p>
               <p className="text-2xl font-bold text-text-primary dark:text-dark-text-primary">
-                Información
+              {t("task.info")}
               </p>
             </div>
             <div className="container flex flex-col gap-4">
