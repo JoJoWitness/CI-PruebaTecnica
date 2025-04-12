@@ -22,6 +22,7 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap",
     
   },
+
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -32,6 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <link rel="icon" href="assets/icons/berry.svg" type="image/x-icon" />
       </head>
       <body className="bg-background dark:bg-dark-background h-full w-full">
         {children}

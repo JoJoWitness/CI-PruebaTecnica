@@ -4,10 +4,10 @@ import { Navbar } from "~/components/navbar";
 
 const TodoLayout: React.FC = () => {
   return (
-        <>
-        <Navbar/>
-        <Outlet />
-        </> 
+        <div className="flex ">
+          <Navbar/>
+          <Outlet/>
+        </div> 
   );
 };
 
