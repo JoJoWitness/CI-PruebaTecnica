@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { useEffect } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -45,6 +46,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+
+    useEffect(() => {
+      
+      const storedTheme = localStorage.theme;
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  
+      if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      } else {
+
+        document.documentElement.classList.remove("dark");
+      }
+    }, []);
+
   return <Outlet />;
 }
 

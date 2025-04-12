@@ -34,9 +34,9 @@ let props3 = {
   createdAt: "4/11/2025"
 }
 
-export default function Home() {
+export default function Tasks() {
   return (
-      <section className="container py-18 px-12">
+      <section className="container py-20 px-16">
             <h1 className="text-4xl text-primary font-bold mb-6">Tareas</h1>
             <div className="grid grid-cols-3 gap-4 bg-background-100 dark:bg-dark-background-100 py-4 px-12 rounded-lg  shadow-md mb-6 ">
               <p className="text-2xl font-bold text-text-primary dark:text-dark-text-primary ">

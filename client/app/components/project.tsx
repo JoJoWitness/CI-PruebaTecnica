@@ -32,7 +32,7 @@ export const Project = ({ project }: ProjectProps) => {
       : "Completed";
 
   return (
-    <div className="border-4 border-gray-300 rounded-lg p-6 shadow-lg bg-background-100 dark:bg-dark-background-100">
+    <div className="border-4 border-primary rounded-lg p-6 shadow-lg bg-background-100 dark:bg-dark-background-100">
       <h2 className="text-2xl font-bold text-primary mb-4">{name}</h2>
       <p className="text-md text-text-secondary dark:text-dark-text-secondary mb-4">
         <span className="text-lg font-medium">Descripcion:</span> {description || "No description provided"}

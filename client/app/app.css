@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme{
 
   --color-primary: #FF33E4;
@@ -35,6 +37,27 @@
   --shadow-high: 0px 4px 6px 1px rgba(229, 140, 139, 0.5);
 
 }
+
+/* Custom scrollbar styles */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: #FF33E4 transparent; 
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 20px; 
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: #FF33E4; 
+  border-radius: 4px; 
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background-color: transparent; 
+  width: 20px;
+}
+
 
 body{
   font-family: 'Roboto', sans-serif;
