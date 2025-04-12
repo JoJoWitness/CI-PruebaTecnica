@@ -31,8 +31,9 @@ export const Project = ({ project }: ProjectProps) => {
     status === "PENDING"
       ? t("project.status.pending")
       : status === "IN_PROGRESS"
-      ? t("project.status.inProgress")
+      ? t("project.status.in_progress")
       : t("project.status.completed")
+
 
   return (
     <div className="border-4 border-primary rounded-lg p-6 shadow-lg bg-background-100 dark:bg-dark-background-100">
@@ -68,10 +69,10 @@ export const Project = ({ project }: ProjectProps) => {
               <span
                 className={`${
                   task.status === "PENDING"
-                    ? "text-pending dark:text-dark-pending"
+                    ? "text-yellow-200 dark:text-dark-yellow-100"
                     : task.status === "IN_PROGRESS"
-                    ? "text-progress darK:text-dark-progress"
-                    : "text-completed dark:text-dark-completed"
+                    ? "text-blue-200 darK:text-blue-100"
+                    : "text-green-200 dark:text-green-100"
                 } font-bold`}
               >
                 {task.status}

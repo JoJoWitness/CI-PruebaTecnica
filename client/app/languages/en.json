@@ -3,19 +3,35 @@
   "changeLanguage": "Change Language",
   "changeTheme": "Change Theme",
 
+  "dashboard": {
+    "projects": "Total Projects",
+    "task": "Total Tasks",
+    "tasks":{
+      "status": "Status",
+      "pending": "Pending",
+      "progress": "In Progress",
+      "completed": "Completed",
+      "priority": "Priority of the Tasks",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    }
+  },
+
   "projects": "Projects",
   "project": {
     "title": "Project",
     "description": "Description",
     "noDescription": "No description provided",
     "owner": "Owner",
-    "statusValues": "Status",
+    "statusValue": "Status",
     "createdAt": "Created At",
     "assignedUsers": "Assigned Users",
     "tasks": "Tasks",
+    "completedTasks": "Completed Tasks",
     "status": {
       "pending": "Pending",
-      "inProgress": "In Progress",
+      "in_progress": "In Progress",
       "completed": "Completed"
     }
   },
@@ -33,7 +49,7 @@
     "createdAt": "Created At",
     "status": {
       "pending": "Pending",
-      "inProgress": "In Progress",
+      "in_progress": "In Progress",
       "completed": "Completed"
     }
   }

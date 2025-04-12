@@ -3,6 +3,21 @@
   "changeLanguage": "Cambiar Idioma",
   "changeTheme": "Cambiar Tema",
 
+  "dashboard": {
+    "projects": "Total de Proyectos",
+    "task": "Total de Tareas",
+    "tasks":{
+      "status": "Estatus",
+      "pending": "Pendientes",
+      "progress": "En Progreso",
+      "completed": "Completadas",
+      "priority": "Prioridad De las Tareas",
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta"
+    }
+  },
+
   "projects": "Proyectos",
   "project": {
     "title": "Proyecto",
@@ -13,11 +28,13 @@
     "createdAt": "Creado en",
     "assignedUsers": "Trabajadores asignados",
     "tasks": "Tareas",
+    "completedTasks": "Tareas Completadas",
     "status": {
       "pending": "Pendiente",
-      "inProgress": "En progreso",
+      "in_progress": "En progreso",
       "completed": "Completado"
     }
+    
   },
 
 
@@ -34,7 +51,7 @@
     "createdAt": "Creado el",
     "status": {
       "pending": "Pendiente",
-      "inProgress": "En progreso",
+      "in_progress": "En progreso",
       "completed": "Completado"
     }
   }

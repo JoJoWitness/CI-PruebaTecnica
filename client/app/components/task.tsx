@@ -19,16 +19,16 @@ export const Task = ({ task }: TaskProps) => {
   
   const priority_bg =
   priority === "LOW"
-    ? "bg-low border-low dark:border-dark-low"
+    ? "bg-green border-green dark:border-green-300"
     : priority === "MEDIUM"
-    ? "bg-medium border-medium dark:border-dark-medium"
-    : "bg-high border-high dark:border-dark-high";
+    ? "bg-yellow border-yellow dark:border-yellow-300"
+    : "bg-red border-red dark:border-red-100";
 
   const status_text =
     status === "PENDING"
       ? t("task.status.pending")
       : status === "IN_PROGRESS"
-      ? t("task.status.inProgress")
+      ? t("task.status.in_progress")
       : t("task.status.completed")
 
 
