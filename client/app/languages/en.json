@@ -1,4 +1,6 @@
 {
+  "home": "Home",
+
   "settings": "Settings",
   "changeLanguage": "Change Language",
   "changeTheme": "Change Theme",
@@ -33,7 +35,10 @@
       "pending": "Pending",
       "in_progress": "In Progress",
       "completed": "Completed"
-    }
+    },
+    "titleP": "Project Title",
+    "descriptionP": "Project Description",
+    "users": "Assign Workers"
   },
 
   "tasks": "Tasks",
@@ -51,8 +56,16 @@
       "pending": "Pending",
       "in_progress": "In Progress",
       "completed": "Completed"
-    }
-  }
+    },
+    "titleT": "Task Title",
+    "descriptionT": "Task Description",
+    "users": "Assign Worker",
+    "priority": "Priority"
+  },
   
+  "login":{
+    "email": "Email",
+    "password": "Password"
+  }
   
 }

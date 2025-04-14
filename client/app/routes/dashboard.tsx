@@ -118,7 +118,7 @@ const mockProjects = [
 
 export default function Dashboard() {
   const { t } = useTranslation();
-  console.log("In_PROGRESS".toLowerCase())
+
   const totalProjects = mockProjects.length;
   const totalTasks = mockProjects.reduce((sum, project) => sum + project.tasks.length, 0);
   const taskStatusCounts = mockProjects.reduce(

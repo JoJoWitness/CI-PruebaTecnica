@@ -1,10 +1,11 @@
 import { Link } from "react-router"
 import logo from "../assets/icons/berry.svg"
 import { NavLink } from "react-router"
+import { t } from "i18next"
 
 export const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg container bg-background-100 dark:bg-dark-background-100 h-[100vh] w-1/5 flex flex-col items-center py-12 px-6">
+    <nav className="navbar navbar-expand-lg container bg-background-100 dark:bg-dark-background-100 h-[100vh] w-1/4 flex flex-col items-center py-12 px-6">
       <div className="flex gap-2 items-end ">
         <img src={logo} className="w-16"/>
         <p className="dark:text-dark-text-primary text-text-primary text-4xl  font-bold tracking-tighter ">Grape App</p>
@@ -21,7 +22,7 @@ export const Navbar = () => {
             }`
           }
         >
-          Inicio
+          {t("home")}
         </NavLink>
         <NavLink
           to="/tasks"
@@ -33,7 +34,7 @@ export const Navbar = () => {
             }`
           }
         >
-          Tareas
+          {t("tasks")}
         </NavLink>
         <NavLink
           to="/projects"
@@ -45,7 +46,7 @@ export const Navbar = () => {
             }`
           }
         >
-          Proyectos
+        {t("projects")}
         </NavLink>
         <NavLink
           to="/settings"
@@ -57,7 +58,7 @@ export const Navbar = () => {
             }`
           }
         >
-          Ajustes
+          {t("settings")}
         </NavLink>
       </div>
     </nav>

@@ -1,19 +1,9 @@
 import { useTranslation } from "react-i18next";
+import type { TaskType } from "../schemas/types";
 
-type TaskProps = {
-  task:{
-    id: number;
-    title: string;
-    description?: string;
-    project: string;
-    assignedTo: string;
-    status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
-    priority: "LOW" | "MEDIUM" | "HIGH";
-    createdAt: string
-  };
-};
 
-export const Task = ({ task }: TaskProps) => {
+
+export const Task = ({ task }: TaskType) => {
   const {id, title, description, project, assignedTo, status, priority, createdAt } = task;
   const {t} = useTranslation();
   

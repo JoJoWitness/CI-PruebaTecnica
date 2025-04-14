@@ -1,4 +1,6 @@
 {
+  "home": "Inicio",
+
   "settings": "Ajustes",
   "changeLanguage": "Cambiar Idioma",
   "changeTheme": "Cambiar Tema",
@@ -33,8 +35,10 @@
       "pending": "Pendiente",
       "in_progress": "En progreso",
       "completed": "Completado"
-    }
-    
+    },
+    "titleP": "Titulo del Projecto",
+    "descriptionP": "Descripción del Projecto",
+    "users": "Asignar Trabajadores"
   },
 
 
@@ -53,7 +57,16 @@
       "pending": "Pendiente",
       "in_progress": "En progreso",
       "completed": "Completado"
-    }
+    },
+    "titleT": "Titulo de la Tarea",
+    "descriptionT": "Descripción de la Tarea",
+    "users": "Asignar Trabajador",
+    "priority": "Prioridad"
+  },
+
+  "login":{
+    "email": "Correo",
+    "password": "Contraseña"
   }
  
 }

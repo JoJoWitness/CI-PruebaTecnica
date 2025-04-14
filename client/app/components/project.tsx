@@ -1,30 +1,11 @@
 import { useTranslation } from "react-i18next";
+import type { ProjectType } from "../schemas/types";
 
-type ProjectProps = {
-  project: {
-    id: number;
-    name: string;
-    description?: string;
-    owner: {
-      id: number;
-      name: string;
-    };
-    assignedUsers: {
-      id: number;
-      name: string;
-    }[];
-    tasks: {
-      id: number;
-      title: string;
-      status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
-    }[];
-    status: "PENDING" | "IN_PROGRESS" | "COMPLETED";
-    createdAt: string; 
-  };
-};
 
-export const Project = ({ project }: ProjectProps) => {
-  const { name, description, owner, assignedUsers, tasks, status, createdAt } = project;
+
+export const Project = ( project : ProjectType) => {
+  console.log("Project", project);
+  const { title, description, owner, assignedUsers, tasks, status, createdAt } = project.project;
   const {t} = useTranslation();
 
   const statusText =
@@ -37,7 +18,7 @@ export const Project = ({ project }: ProjectProps) => {
 
   return (
     <div className="border-4 border-primary rounded-lg p-6 shadow-lg bg-background-100 dark:bg-dark-background-100">
-      <h2 className="text-2xl font-bold text-primary mb-4">{name}</h2>
+      <h2 className="text-2xl font-bold text-primary mb-4">{title}</h2>
       <p className="text-md text-text-secondary dark:text-dark-text-secondary mb-4">
         <span className="text-lg font-medium">{t("project.description")}:</span> {description || t("project.noDescription")}
       </p>
