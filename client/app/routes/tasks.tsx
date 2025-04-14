@@ -2,34 +2,31 @@ import { Task } from "~/components/task";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { TaskInput } from "~/components/form";
-import type { TaskType } from "~/schemas/types";
+import type { ProjectType, TaskType } from "~/schemas/types";
+import {fetchTasks } from "~/api/tasks";
+import { fetchProject } from "~/api/projects";
 
 
 
 export default function Tasks() {
   const {t} = useTranslation();
   const [tasks, setTasks] = useState<TaskType | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [projects, setProjects] = useState<ProjectType | undefined>(undefined);
   useEffect(() => {
-      const fetchProject = async () => {
-        try {
-          const response = await fetch("http://localhost:3000/tasks");
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          setTasks(data);
-          console.log(data);
-        } catch (error) {
-          console.error("Error fetching project:", error);
-        }
-      };
+     
   
-      fetchProject();
+       const fetchData = async () => {
+          const data = await fetchTasks();
+          const dataP = await fetchProject();
+          setTasks(data);
+          setProjects(dataP);
+        };
+
+      fetchData();
     }, []);
 
-  if (!tasks || tasks === null) {
+  if ((tasks == null) && (projects == undefined) ) {
     return(
     <section className="container position-relative p-16 h-screen flex flex-col">
         <h1 className="text-4xl text-primary font-bold mb-6">{t("projects")}</h1>
@@ -53,14 +50,14 @@ export default function Tasks() {
             </div>
             <div className="container flex flex-col gap-4  overflow-y-scroll scrollbar-custom">
               {/* @ts-ignore*/}
-              {tasks && tasks.map((task) => ( <Task key={task.id} task={task} />))}
+              {tasks && tasks.map((task) => ( <Task key={task.id} project={projects} task={task}/>))}
             </div>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="text-xl font-bold bg-primary fixed bottom-12 right-6 text-background dark:text-dark-background w-60 rounded-lg px-4 py-2 mt-6 
+              className="text-xl font-bold bg-primary fixed bottom-6 right-6 text-background dark:text-dark-background w-60 rounded-lg px-4 py-2 mt-6 
               border-3 border-primary hover:bg-background-100 dark:hover:bg-dark-background-100 hover:text-primary"
             >
-              {t("createProject", "Create New Project")}
+              {t("task.create")}
             </button>
             {isModalOpen && (
             <div className="fixed inset-0 bg-background dark:bg-dark-background flex justify-center items-center z-50 w-screen h-screen">
@@ -71,7 +68,7 @@ export default function Tasks() {
                 >
                   X
                 </button>
-                <TaskInput/>
+                <TaskInput projects={projects}/>
               </div>
             </div>
           )}

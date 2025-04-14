@@ -34,11 +34,19 @@
     "status": {
       "pending": "Pendiente",
       "in_progress": "En progreso",
-      "completed": "Completado"
+      "cancelled": "Cancelado"
     },
     "titleP": "Titulo del Projecto",
     "descriptionP": "Descripción del Projecto",
-    "users": "Asignar Trabajadores"
+    "users": "Asignar Trabajadores",
+    "create": "Crear Proyecto",
+    "edit": "Editar Proyecto",
+    "delete": "Eliminar Proyecto",
+    "deleted": "Proyecto Eliminado",
+    "created": "Proyecto Creado",
+    "updated": "Proyecto Actualizado",
+    "error": "Ocurrió un error. Error: ",
+    "cancel": "Cancel"
   },
 
 
@@ -61,7 +69,15 @@
     "titleT": "Titulo de la Tarea",
     "descriptionT": "Descripción de la Tarea",
     "users": "Asignar Trabajador",
-    "priority": "Prioridad"
+    "priority": "Prioridad",
+    "create": "Crear Tarea",
+    "edit": "Editar Tarea",
+    "delete": "Eliminar Tarea",
+    "deleted": "Tarea Eliminada",
+    "created": "Tarea Creada",
+    "updated": "Tarea Actualizado",
+    "error": "Ocurrió un error. Error: ",
+    "cancel": "Cancel"
   },
 
   "login":{

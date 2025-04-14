@@ -18,7 +18,7 @@ export default function Settings() {
     document.documentElement.classList.toggle("dark", newTheme === "dark");
     localStorage.setItem("theme", newTheme);
     localStorage.theme = newTheme;
-    console.log(`Theme changed to: ${newTheme}`);
+
   };
 
   useEffect(() => {

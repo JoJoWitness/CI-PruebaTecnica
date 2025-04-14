@@ -1,34 +1,86 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "i18next";
 import { useForm} from "react-hook-form";
-import {PriorityEnum, type TaskValues, StatusEnum, type User, type ProjectValues, RoleEnum, type UserLogType} from "~/schemas/types";
+import {PriorityEnum, type TaskValues, StatusEnum, type User, type ProjectValues, RoleEnum, type UserLogType, StatusEnumProject, type ProjectType, type TaskType} from "~/schemas/types";
 import { ProjectSchema, TaskSchema, UserLogSchema} from "~/schemas/zod";
-import { DropdownInputGeneralMultiple, DropdownInputMultiple, DropdownInputSingle, EnumDropdown, EnumDropdownProject, InputTextProject, InputTextTask, UserLogInput } from "./inputs";
+import { DropdownInputGeneralMultiple, DropdownInputMultiple, DropdownInputSingle, DropdownProject, EnumDropdown, EnumDropdownProject, InputTextProject, InputTextTask, UserLogInput } from "./inputs";
 import { useEffect, useState } from "react";
+import { createProject, fetchProject, updateProject } from "~/api/projects";
+import { fetchUsers } from "~/api/users";
+import { useProjects } from "~/hooks/projectData";
 
 
 
-export const TaskInput = () =>{
-  const { register, handleSubmit, formState: { errors } } = useForm<TaskValues>({
+export const TaskInput = ({
+  initialValues,
+  project,
+  onSubmitSuccess,
+}: {
+  initialValues?: TaskType ;
+  projects?: ProjectType[];
+  project?: ProjectType; // Optional project
+  onSubmitSuccess?: () => void;
+}) => {
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<TaskValues>({
     resolver: zodResolver(TaskSchema),
-    
+    defaultValues: initialValues 
+      ? { ...initialValues, status: initialValues.status as StatusEnum, priority: initialValues.priority as PriorityEnum }
+      : {}
   });
-  const onSubmit = (data: TaskValues) => {
-    console.log("Selected Users:", data);
-  };
 
-  const mockUsers = [
-    { id: 201, name: "John Doe", role: "USER" } as User,
-    { id: 202, name: "Jane Smith", role: "USER" } as User,
-  ];
+  const selectedProjectId = watch("projectId") || initialValues?.projectId;
+  const { data: projects, isLoading: isProjectsLoading } = useProjects();
+
+    useEffect(() => {
+         const fetchData = async () => {
+            const data = await fetchProject();
+            setProjectsAr(data);
+          };
+  
+        fetchData();
+      }, []);
+
+
+  const assignedUsers = selectedProjectId
+    ? projects?.find((proj) => proj.id === parseInt(selectedProjectId))?.assignedUsers || []
+    : [];
+ 
+
+  const onSubmit = async (data: TaskValues) => {
+    try {
+      if (initialValues?.id) {
+        await updateTask(initialValues.id, data);
+      } else {
+        await createTask(data);
+      }
+      if (onSubmitSuccess) onSubmitSuccess();
+    } catch (error) {
+      console.error("Error submitting task:", error);
+    }
+  };
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="dark:text-dark-text-primary text-text-primary text-sm flex flex-col w-full items-center gap-3">
+      
+      {!initialValues?.id && ( 
+      <DropdownProject
+        label={t("task.project")}
+        // @ts-ignore
+        projects={projects.projects} 
+        register={register}
+        value="projectId"
+      />
+      )
+      }
+
+      
       <InputTextTask label={t("task.titleT")} register={register} value="title" />
       <InputTextTask label={t("task.descriptionT")} register={register} value="description" />
       
+      
       <DropdownInputGeneralMultiple
         label={t("task.users")}
-        users={mockUsers} 
+        users={assignedUsers} 
         register={register}
         value="assignedToId"
       />
@@ -55,52 +107,54 @@ export const TaskInput = () =>{
   );
 } 
 
-export const ProjectInput = () =>{
+export const ProjectInput = ({
+  initialValues,
+  onSubmitSuccess,
+}: {
+  initialValues?: {
+    id?: number;
+    name: string;
+    description: string;
+    assignedUsersID: number[];
+    ownerId?: number;
+    status: string;
+  };
+  onSubmitSuccess?: () => void;
+}) =>{
   const [users, setUsers] = useState<User[]>([])
 
-  const { register, handleSubmit,setValue, watch, formState: { errors } } = useForm<ProjectValues>({
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<ProjectValues>({
     resolver: zodResolver(ProjectSchema),
-    defaultValues: {
-        assignedUsersID: [],
-      },
+    defaultValues: initialValues
+      ? { ...initialValues, status: initialValues.status as StatusEnumProject }
+      : {
+    
+      assignedUsersID: [],
+    
+    },
   });
+
+
   const onSubmit = async (data: ProjectValues) => {
-    console.log("Selected Users:", data);
     try {
-      const response = await fetch("http://localhost:3000/projects", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      if (initialValues?.id) {
+       await updateProject(initialValues.id, data);
+      } else {
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        await createProject(data);
       }
-
-      const createdProject = await response.json();
-      console.log("Project created successfully:", createdProject);
+      if (onSubmitSuccess) onSubmitSuccess();
     } catch (error) {
-      console.error("Error creating project:", error);
+      console.error("Error submitting project:", error);
     }
   };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/users");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setUsers(data); 
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchUsers();
+   const fetchData = async () => {
+         const data = await fetchUsers();
+         setUsers(data);
+       };
+       fetchData();
   }, []);
   
  
@@ -112,6 +166,8 @@ export const ProjectInput = () =>{
             <InputTextProject label={t("project.titleP")} register={register} value="name" />
             <InputTextProject label={t("project.descriptionP")} register={register} value="description" />
             
+            {!initialValues?.id && ( 
+            
             <DropdownInputSingle    
                 label={t("project.owner")}
                 userType={RoleEnum.SUPERVISOR}
@@ -119,6 +175,11 @@ export const ProjectInput = () =>{
                 register={register}
                 value="ownerId"
             />
+            )
+             
+            }
+
+            
             <DropdownInputMultiple
               label={t("project.users")}
               users={users}
@@ -131,7 +192,7 @@ export const ProjectInput = () =>{
             <EnumDropdownProject
                 label={t("project.statusValue")}
                 // @ts-ignore
-                enumType={Object.values(StatusEnum)}
+                enumType={Object.values(StatusEnumProject)}
                 register={register}
                 value="status"
             />
@@ -151,7 +212,8 @@ export const UserLogForm = () =>{
     
   });
   const onSubmit = (data: UserLogType) => {
-    console.log("Selected Users:", data);
+
+    
   };
 
   return (

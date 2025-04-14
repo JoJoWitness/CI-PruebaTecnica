@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, NotFoundException, ParseIntPipe } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { createTaskDto, updateTaskDto } from './dto/task.dto';
-import { Task } from '@prisma/client';
+import { Task, TaskPriority, TaskStatus } from '@prisma/client';
 
 @Controller('tasks')
 export class TasksController {
@@ -25,9 +25,12 @@ export class TasksController {
     @Post()
     async createTask(@Body() data: createTaskDto): Promise<Task> {
         return await this.tasksService.createTask({
-            ...data,
-            project: { connect: { id: data.projectId } },
-            assignedTo: { connect: { id: data.assignedToId } }
+            title: data.title,
+            description: data.description,
+            status: data.status,
+            priority: data.priority,
+            project: { connect: { id: data.projectId } }, 
+            assignedTo: { connect: { id: data.assignedToId } },
         });
     }
     
@@ -35,11 +38,17 @@ export class TasksController {
     // TODO: role decorator on auth
     // @UseGuards(JwtAuthGuard)
     // @Roles(Role.ADMIN, Role.SUPERVISOR, Role.USER) // user solo si es dueño
-    @Put()
-    async updateTask(@Body() data: updateTaskDto): Promise<Task> {
+    @Put(':id')
+    async updateTask(@Param('id', ParseIntPipe) id: number,@Body() data: updateTaskDto): Promise<Task> {
         return await this.tasksService.updateTask({
             where: { id: data.id },
-            data //TODO: Further read docs to see if connect is needed
+            data: {
+                title: data.title,
+                description: data.description,
+                status: data.status as TaskStatus,
+                priority: data.priority as TaskPriority ,
+                assignedTo: { connect: { id: data.assignedToId } },
+            }
         });
     }
 

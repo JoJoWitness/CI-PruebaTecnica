@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, NotFoundException, ParseIntPipe } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
-import { Project } from '@prisma/client';
+import { Project, ProjectStatus } from '@prisma/client';
 
 
 import { CreateProjectDto, UpdateProjectDto } from './dto/project.dto';
@@ -31,7 +31,7 @@ export class ProjectsController {
     @Post()
     async createProject(@Body() data: CreateProjectDto): Promise<Project> {
    
-    console.log("Incoming data:", data);
+
 
   
     const users = (data.assignedUsersID || []).map((id) => ({ id }));
@@ -41,7 +41,7 @@ export class ProjectsController {
         description: data.description,
         owner: { connect: { id: data.ownerId } }, 
         assignedUsers: { connect: users },
-        status: data.status,
+        status: data.status as ProjectStatus,
         tasks: {}
     });
     }
@@ -50,19 +50,20 @@ export class ProjectsController {
     // TODO: role decorator on auth
     // @UseGuards(JwtAuthGuard)
     // @Roles(Role.ADMIN, Role.SUPERVISOR) //Supervisor if owner
-    @Put()
-    async updateProject(@Body() data: UpdateProjectDto): Promise<Project> {
+    @Put(':id')
+    async updateProject(@Param('id', ParseIntPipe) id: number,@Body() data: UpdateProjectDto): Promise<Project> {
         const users = data.assignedUsersID.map((id) => ({ id })) || [];
         
         return await this.projectsService.updateProject({
-            where: { id: data.id },
+            where: { id},
             data: {
-                ...data,
-                owner: data.ownerId ? { connect: { id: data.ownerId } } : undefined,
+                name: data.name,
+                description: data.description,
+                status: data.status as ProjectStatus,
                 assignedUsers: {
-                    set: users
+                    set: users, 
                 },
-            }
+            },
         });
     }
 

@@ -34,11 +34,19 @@
     "status": {
       "pending": "Pending",
       "in_progress": "In Progress",
-      "completed": "Completed"
+      "cancelled": "Cancelled"
     },
     "titleP": "Project Title",
     "descriptionP": "Project Description",
-    "users": "Assign Workers"
+    "users": "Assign Workers",
+    "create": "Create Project",
+    "edit": "Edit Project",
+    "delete": "Delete Project",
+    "deleted": "Project Deleted",
+    "created": "Project Created",
+    "updated": "Project Updated",
+    "error": "An error occurred. Error: ",
+    "cancel": "Cancel"
   },
 
   "tasks": "Tasks",
@@ -60,7 +68,15 @@
     "titleT": "Task Title",
     "descriptionT": "Task Description",
     "users": "Assign Worker",
-    "priority": "Priority"
+    "priority": "Priority",
+    "create": "Create Task",
+    "edit": "Edit Task",
+    "delete": "Delete Task",
+    "deleted": "Task Deleted",
+    "created": "Task Created",
+    "updated": "Task Updated",
+    "error": "An error occurred. Error: ",
+    "cancel": "Cancel"
   },
   
   "login":{

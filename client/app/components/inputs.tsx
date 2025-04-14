@@ -1,4 +1,4 @@
-import { type DropdownMultipleProps, type DropdownProps, type EnumDropdownProps, type EnumValues, type DropdownMultipleGeneralProps, type EnumDropdownProjectProps, type UserLogType, type UserLogProp, type InputTextProjectType, type InputTextTaskType } from "~/schemas/types";
+import { type DropdownMultipleProps, type DropdownProps, type EnumDropdownProps, type EnumValues, type DropdownMultipleGeneralProps, type EnumDropdownProjectProps, type UserLogType, type UserLogProp, type InputTextProjectType, type InputTextTaskType, type ProjectDropdownProps } from "~/schemas/types";
 
 export const InputTextProject = ({ label, register, value}: InputTextProjectType) => {
   return (
@@ -34,6 +34,25 @@ export const DropdownInputSingle = ({ label, users, userType, register, value }:
         {filteredUsers.map((user) => (
           <option key={user.id} value={user.id}>
             {user.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+export const DropdownProject: React.FC<ProjectDropdownProps> = ({ label, projects, register, value }) => {
+  return (
+    <div className="flex flex-col w-80">
+      <label className="font-bold">{label}</label>
+      <select
+        {...register(value, { valueAsNumber: true })}
+        className="border border-dark-background dark:border-background rounded p-2 bg-background-100 dark:bg-dark-background-100"
+      >
+        <option value="">Select a project</option>
+        {projects.map((project) => (
+          <option key={project.id} value={project.id}>
+            {project.name}
           </option>
         ))}
       </select>

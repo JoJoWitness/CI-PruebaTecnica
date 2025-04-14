@@ -7,6 +7,12 @@ export enum StatusEnum {
   COMPLETED = "COMPLETED",
 }
 
+export enum StatusEnumProject {
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+}
+
 export enum PriorityEnum {
   LOW = "LOW",
   MEDIUM = "MEDIUM",
@@ -32,6 +38,7 @@ export type UserPropsType = {
 };
 
 export type ProjectType = {
+    id: number;
     title: number;
     name: string;
     description?: string;
@@ -48,7 +55,7 @@ export type ProjectType = {
       title: string;
       status: StatusEnum;
     }[];
-    status:  StatusEnum;
+    status:  StatusEnumProject;
     createdAt: string; 
 };
 
@@ -59,15 +66,16 @@ export interface ProjectValues{
   description?: string;
   ownerId: number;
   assignedUsersID: number[];
-  status: StatusEnum;
+  status: StatusEnumProject;
 }
 
 export type TaskType = {
     id: number;
     title: string;
     description?: string;
-    project: string;
+    project: ProjectType;
     assignedTo: string;
+    projectId: number;
     status: StatusEnum;
     priority: PriorityEnum;
     createdAt: string
@@ -76,6 +84,7 @@ export type TaskType = {
 export interface TaskValues{
   title: string;
   description?: string;
+  projectId: number;
   assignedToId: number;
   status: StatusEnum;
   priority: PriorityEnum;
@@ -106,6 +115,13 @@ export type DropdownProps = {
   register: UseFormRegister<ProjectValues>;
   value: Path<ProjectValues>; 
 };
+
+export interface ProjectDropdownProps {
+  label: string;
+  projects: ProjectType[];
+  register: UseFormRegister<TaskValues>;
+  value: Path<TaskValues>;
+}
 
 export type DropdownMultipleProps = {
   label: string;

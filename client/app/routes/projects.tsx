@@ -1,32 +1,23 @@
 import { useTranslation } from "react-i18next";
 import { Project } from "../components/project";
 import { useEffect, useState } from "react";
-import {ProjectInput, TaskInput} from "../components/form";
+import {ProjectInput} from "../components/form";
 import type { ProjectType } from "~/schemas/types";
+import { fetchProject } from "~/api/projects";
 
 
 
 export default function Projects() {
   const { t} = useTranslation();
-  const [projects, setProjects] = useState<ProjectType | null>(null);
+  const [projects, setProjects] = useState<ProjectType | undefined>(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
  
   useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/projects");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setProjects(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching project:", error);
-      }
+    const fetchData = async () => {
+      const data = await fetchProject();
+      setProjects(data);
     };
-
-    fetchProject();
+    fetchData();
   }, []);
 
   if (!projects || projects === null) {
@@ -49,7 +40,7 @@ export default function Projects() {
           className="text-xl font-bold bg-primary fixed bottom-12 right-6 text-background dark:text-dark-background w-60 rounded-lg px-4 py-2 mt-6 
           border-3 border-primary hover:bg-background-100 dark:hover:bg-dark-background-100 hover:text-primary"
         >
-          {t("createProject", "Create New Project")}
+          {t("project.create")}
         </button>
         {isModalOpen && (
         <div className="fixed inset-0 bg-background dark:bg-dark-background flex justify-center items-center z-50 w-screen h-screen">

@@ -46,5 +46,5 @@ export class UpdateProjectDto {
     assignedUsersID?: number[];
 
     @IsEnum(ProjectStatus)
-    projectStatus: ProjectStatus;
+    status: ProjectStatus;
 }

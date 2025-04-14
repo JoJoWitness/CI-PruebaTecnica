@@ -1,6 +1,6 @@
 import { z, ZodType } from "zod";
 import type { ProjectValues, TaskValues } from "./types";
-import { PriorityEnum, StatusEnum } from "./types";
+import { PriorityEnum, StatusEnum, StatusEnumProject } from "./types";
 
 export const userSchema = z.object({ 
   id: z.number(),
@@ -16,7 +16,7 @@ export const ProjectSchema: ZodType<ProjectValues> =  z.object({
     description: z.string().optional(),
     ownerId: z.number(),
     assignedUsersID: z.number().array().min(1, "At least one user must be assigned"),
-    status: z.nativeEnum(StatusEnum),
+    status: z.nativeEnum(StatusEnumProject),
   
 });
 
@@ -32,6 +32,7 @@ export const TaskSchema: ZodType<TaskValues> = z.object({
     title: z.string(),
     description: z.string().optional(),
     assignedToId: z.number(),
+    projectId: z.number(),
     status: z.nativeEnum(StatusEnum),
     priority: z.nativeEnum(PriorityEnum),
 });
