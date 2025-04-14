@@ -55,10 +55,10 @@ export type ProjectType = {
 
 
 export interface ProjectValues{
-  title: string;
+  name: string;
   description?: string;
   ownerId: number;
-  assignedUsersId: number[];
+  assignedUsersID: number[];
   status: StatusEnum;
 }
 

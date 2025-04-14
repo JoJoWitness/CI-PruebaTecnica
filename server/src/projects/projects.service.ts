@@ -30,7 +30,8 @@ export class ProjectsService {
             orderBy,
             include: {
                 assignedUsers: true,
-                tasks: true
+                tasks: true,
+                owner: true,
             }
         });
     }

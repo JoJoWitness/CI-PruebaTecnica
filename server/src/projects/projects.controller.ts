@@ -30,14 +30,20 @@ export class ProjectsController {
     // @Roles(Role.ADMIN, Role.SUPERVISOR) 
     @Post()
     async createProject(@Body() data: CreateProjectDto): Promise<Project> {
-        const users = data.assignedUsersID.map((id) => ({ id })) || [];
+   
+    console.log("Incoming data:", data);
 
-        return await this.projectsService.createProject({
-            ...data,
-            owner: { connect: { id: data.ownerId } },
-            assignedUsers: { connect: users },
-            tasks: {}
-        });
+  
+    const users = (data.assignedUsersID || []).map((id) => ({ id }));
+
+    return await this.projectsService.createProject({
+        name: data.name,
+        description: data.description,
+        owner: { connect: { id: data.ownerId } }, 
+        assignedUsers: { connect: users },
+        status: data.status,
+        tasks: {}
+    });
     }
 
     // TODO: Add Guard

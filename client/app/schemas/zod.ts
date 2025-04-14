@@ -12,10 +12,10 @@ export const userSchema = z.object({
 });
 
 export const ProjectSchema: ZodType<ProjectValues> =  z.object({ 
-    title: z.string(),
+    name: z.string(),
     description: z.string().optional(),
     ownerId: z.number(),
-    assignedUsersId: z.number().array().min(1, "At least one user must be assigned"),
+    assignedUsersID: z.number().array().min(1, "At least one user must be assigned"),
     status: z.nativeEnum(StatusEnum),
   
 });
@@ -24,7 +24,7 @@ export const ProjectUpdateSchema = z.object({
     title: z.string().optional(),
     description: z.string().optional(),
     ownerId: z.number().optional(),
-    assignedUsersId: z.number().array().min(1, "At least one user must be assigned").optional(),
+    assignedUsersID: z.number().array().min(1, "At least one user must be assigned").optional(),
     status: z.nativeEnum(StatusEnum).optional(),
 });
 

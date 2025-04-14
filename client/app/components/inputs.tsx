@@ -43,14 +43,14 @@ export const DropdownInputSingle = ({ label, users, userType, register, value }:
 
 export const DropdownInputMultiple = ({ label, users, register, value, setValue, watch }: DropdownMultipleProps & { setValue: any; watch: any }) => {
   const filteredUsers = users.filter((user) => user.role === "USER");
-  const selectedUsers = watch(value) || []; // Watch the selected values
+  const selectedUsers = watch(value) || []; 
 
   const toggleUserSelection = (userId: number) => {
     const updatedSelection = selectedUsers.includes(userId)
-      ? selectedUsers.filter((id: number) => id !== userId) // Remove user if already selected
-      : [...selectedUsers, userId]; // Add user if not already selected
+      ? selectedUsers.filter((id: number) => id !== userId) 
+      : [...selectedUsers, userId]; 
 
-    setValue(value, updatedSelection); // Update the form state
+    setValue(value, updatedSelection); 
   };
 
   return (

@@ -30,6 +30,10 @@ export class TasksService {
             cursor,
             where,
             orderBy,
+            include:{
+                assignedTo: true,
+                project: true
+            }
         });
     }
 

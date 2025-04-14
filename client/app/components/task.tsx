@@ -3,10 +3,13 @@ import type { TaskType } from "../schemas/types";
 
 
 
-export const Task = ({ task }: TaskType) => {
-  const {id, title, description, project, assignedTo, status, priority, createdAt } = task;
+export const Task = (task : TaskType) => {
+  //@ts-ignore
+  const {id, title, description, project, assignedTo, status, priority, createdAt } = task.task;
   const {t} = useTranslation();
   
+  console.log(task)
+
   const priority_bg =
   priority === "LOW"
     ? "bg-green border-green dark:border-green-300"
@@ -35,10 +38,10 @@ export const Task = ({ task }: TaskType) => {
       </p>
       <div className="flex flex-col gap-2 ">
         <p className="text-text-secondary dark:text-dark-text-secondary">
-          <span className="font-bold">{t("task.project")}:</span> {project}
+          <span className="font-bold">{t("task.project")}:</span> {project.name}
         </p>
         <p className="text-text-secondary dark:text-dark-text-secondary">
-          <span className="font-bold">{t("task.assignedTo")}:</span> {assignedTo}
+          <span className="font-bold">{t("task.assignedTo")}:</span> {assignedTo.name}
         </p>
         
         <p className="text-text-secondary dark:text-dark-text-secondary">

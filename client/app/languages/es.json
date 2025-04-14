@@ -67,6 +67,8 @@
   "login":{
     "email": "Correo",
     "password": "Contraseña"
-  }
+  },
+
+   "loading": "Cargando"
  
 }

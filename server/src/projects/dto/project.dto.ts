@@ -20,7 +20,7 @@ export class CreateProjectDto {
     assignedUsersID: number[];
 
     @IsEnum(ProjectStatus)
-    projectStatus: ProjectStatus;
+    status: ProjectStatus;
 }
 
 export class UpdateProjectDto {

@@ -1,57 +1,48 @@
 import { useTranslation } from "react-i18next";
 import { Project } from "../components/project";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {ProjectInput, TaskInput} from "../components/form";
+import type { ProjectType } from "~/schemas/types";
 
 
-const mockProjects = [
-  {
-    id: 1,
-    title: "Website Redesign",
-    description: "Redesign the company website to improve user experience.",
-    owner: { id: 101, name: "Alice Johnson" },
-    assignedUsers: [
-      { id: 201, name: "John Doe" },
-      { id: 202, name: "Jane Smith" },
-    ],
-    tasks: [
-      { id: 301, title: "Create Wireframes", status: "COMPLETED" as "PENDING" | "IN_PROGRESS" | "COMPLETED"},
-      { id: 302, title: "Develop Frontend", status: "IN_PROGRESS" as "PENDING" | "IN_PROGRESS" | "COMPLETED" },
-      { id: 303, title: "Setup Backend", status: "PENDING" as "PENDING" | "IN_PROGRESS" | "COMPLETED"},
-    ],
-    status: "IN_PROGRESS" as "PENDING" | "IN_PROGRESS" | "COMPLETED",
-    createdAt: "2025-04-11T10:00:00Z",
-  },
-  {
-    id: 2,
-    title: "API Development",
-    description: "Develop the backend API for the application.",
-    owner: { id: 102, name: "Bob Williams" },
-    assignedUsers: [
-      { id: 203, name: "Alice Johnson" },
-      { id: 204, name: "Charlie Brown" },
-    ],
-    tasks: [
-      { id: 304, title: "Setup Database", status: "PENDING" as "PENDING" | "IN_PROGRESS" | "COMPLETED" },
-      { id: 305, title: "Implement Authentication", status: "IN_PROGRESS" as "PENDING" | "IN_PROGRESS" | "COMPLETED" },
-    ],
-    status: "PENDING" as "PENDING" | "IN_PROGRESS" | "COMPLETED",
-    createdAt: "2025-04-10T12:00:00Z",
-  },
-];
 
 export default function Projects() {
   const { t} = useTranslation();
+  const [projects, setProjects] = useState<ProjectType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
  
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/projects");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setProjects(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching project:", error);
+      }
+    };
 
+    fetchProject();
+  }, []);
+
+  if (!projects || projects === null) {
+    return(
+    <section className="container position-relative p-16 h-screen flex flex-col">
+      <h1 className="text-4xl text-primary font-bold mb-6">{t("projects")}</h1>
+      <p className="text-2xl font-medium text-text-primary dark:text-dark-text-primary">{t("loading")}...</p>
+    </section>
+    )
+  }
   return (
       <section className="container position-relative p-16 h-screen flex flex-col">
         <h1 className="text-4xl text-primary font-bold mb-6">{t("projects")}</h1>
         <div className="container flex flex-col gap-6 overflow-y-scroll scrollbar-custom ">
-          {mockProjects.map((project) => (
-                <Project key={project.id} project={project} />
-              ))}
+          {/* @ts-ignore*/}
+          {projects && projects.map((project) => ( <Project key={project.id} project={project} />))}
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
