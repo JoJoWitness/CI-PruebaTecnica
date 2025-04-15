@@ -1,51 +1,34 @@
 import { useTranslation } from "react-i18next";
-import type { ProjectType, TaskType } from "../schemas/types";
+import type { ProjectType, TaskType, UserType } from "../schemas/types";
 import { deleteTask } from "~/api/tasks";
 import { useState } from "react";
-import { TaskInput } from "./form";
+import { TaskInput, UserForm } from "./form";
+import { deleteUsers } from "~/api/users";
 
 
 
-export const Task = (task : TaskType) => {
+export const User = (user : UserType) => {
   //@ts-ignore
-  const {id, title, description, project, assignedTo, status, priority, createdAt } = task.task;
+  const {id, name, email, role } = user.user
   const {t} = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
  
-  const priority_bg =
-  priority === "LOW"
-    ? "bg-green border-green dark:border-green-300"
-    : priority === "MEDIUM"
-    ? "bg-yellow border-yellow dark:border-yellow-300"
-    : "bg-red border-red dark:border-red-100";
-
-  const status_text =
-    status === "PENDING"
-      ? t("task.status.pending")
-      : status === "IN_PROGRESS"
-      ? t("task.status.in_progress")
-      : t("task.status.completed")
-
-
   return (
     
-    <div className={`grid grid-cols-3 relative gap-4 border-3 ${priority_bg} bg-background-100 dark:bg-dark-background-100  rounded-lg p-4 shadow-sm text-text-secondary dark:text-dark-text-secondary  px-12`}>
+    <div className='grid grid-cols-4 relative gap-4  bg-background-100 dark:bg-dark-background-100  rounded-lg p-4 shadow-sm text-text-secondary dark:text-dark-text-secondary  px-12'>
       {isEditing ? (
       <div className="flex flex-col gap-4 col-span-3">
-        <TaskInput
-        initialValues={{
-          id,
-          title,
-          description,
-          status,
-          priority,
-          projectId: project.id,
-          assignedTo: assignedTo.id,
-          project,
-          createdAt
-        }}
+        <UserForm
+        initialValues={
+          {
+            id,
+            name,
+            email,
+            role
+          }
+        }
         onSubmitSuccess={() => setIsEditing(false)} 
-      />
+        />
         <button
           onClick={() => setIsEditing(false)}
           className="text-sm border-3 border-primary font-bold bg-primary text-background dark:text-dark-background w-30 rounded-lg px-4 mt-4 py-2
@@ -56,29 +39,12 @@ export const Task = (task : TaskType) => {
       </div>
       ) : (
       <>
-      <div className="flex flex-col gap-2 justify-center">
-        <h2 className="text-2xl font-bold ">{title}</h2>
-        <p className="text-lg ">
-          {description || t("task.noDescription")}
-        </p>
-      </div>
-      <p className="text-text-secondary dark:text-dark-text-secondary text-xl self-center ">
-         {status_text}
-      </p>
-      <div className="flex flex-col gap-2 ">
-        <p className="text-text-secondary dark:text-dark-text-secondary">
-          <span className="font-bold">{t("task.project")}:</span> {project.name}
-        </p>
-        <p className="text-text-secondary dark:text-dark-text-secondary">
-          <span className="font-bold">{t("task.assignedTo")}:</span> {assignedTo.name}
-        </p>
-        
-        <p className="text-text-secondary dark:text-dark-text-secondary">
-          <span className="font-bold">{t("task.createdAt")}:</span> {new Date(createdAt).toLocaleDateString()}
-        </p>
-      </div>
+        <h2 className="text-lg font-bold ">{name}</h2>
+        <h2 className="text-lg font-bold">{role}</h2>
+        <h2 className="text-lg font-bold">{email}</h2> 
+        <div>   
       <button
-          onClick={() => deleteTask(id)}
+          onClick={() => deleteUsers(id)}
           className="absolute top-3 right-3"
           aria-label="Delete Task "
         >
@@ -109,6 +75,7 @@ export const Task = (task : TaskType) => {
             <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
           </svg>
         </button>
+        </div>
         </>
       )}
     </div>

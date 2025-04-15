@@ -32,7 +32,7 @@
     "tasks": "Tareas",
     "completedTasks": "Tareas Completadas",
     "status": {
-      "pending": "Pendiente",
+      "completed": "Completado",
       "in_progress": "En progreso",
       "cancelled": "Cancelado"
     },
@@ -85,6 +85,24 @@
     "password": "Contraseña"
   },
 
-   "loading": "Cargando"
+   "loading": "Cargando",
  
+    "user": {
+      "name": "Nombre",
+      "email": "Correo",
+      "role": "Rol",
+      "password": "Contraseña",
+      "title": "Usuarios",
+      "create": "Crear Usuario",
+      "edit": "Editar Usuario",
+      "delete": "Eliminar Usuario",
+      "deleted": "Usuario Eliminado",
+      "created": "Usuario Creado",
+      "updated": "Usuario Actualizado",
+      "error": "Ocurrió un error. Error: ",
+      "cancel": "Cancel"
+    },
+
+    "submit": "Enviar"
+
 }

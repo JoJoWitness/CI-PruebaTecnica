@@ -49,6 +49,18 @@ export const Navbar = () => {
         {t("projects")}
         </NavLink>
         <NavLink
+          to="/users"
+          className={({ isActive }) =>
+          `w-3/4 h-16 rounded-md text-center transition flex items-center px-5 text-xl font-bold ${
+              isActive
+                ? "bg-primary text-background-100 dark:text-dark-background-100"
+                : "bg-background-100 dark:bg-dark-background-100 text-text-primary dark:text-dark-text-primary hover:bg-primary hover:text-background-100 dark:hover:text-dark-background-100"
+            }`
+          }
+        >
+          {t("user.title")}
+        </NavLink>
+        <NavLink
           to="/settings"
           className={({ isActive }) =>
           `w-3/4 h-16 rounded-md text-center transition flex items-center px-5 text-xl font-bold ${
@@ -60,6 +72,7 @@ export const Navbar = () => {
         >
           {t("settings")}
         </NavLink>
+        
       </div>
     </nav>
       )

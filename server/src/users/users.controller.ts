@@ -32,9 +32,9 @@ export class UsersController {
         if (existingUser) {
             throw new BadRequestException();
         }
-        if (data.role !== Role.USER) {
-            throw new UnauthorizedException();
-        }
+        // if (data.role !== Role.USER) {
+        //     throw new UnauthorizedException();
+        // }
 
         return await this.usersService.createUser(data);
     }
@@ -48,21 +48,26 @@ export class UsersController {
         @Param('id', ParseIntPipe) id: number,
         @Body() data: UpdateUserDto
     ): Promise<IUser> {
-        const user = await this.usersService.getUser({ id: Number(data.id) });
-        if (!user) {
-            throw new NotFoundException();
-        }
-        if (
-            user.id !== id
-            && data.role !== Role.ADMIN
-            && data.role !== Role.SUPERVISOR
-        ) {
-            throw new UnauthorizedException();
-        }
+        // const user = await this.usersService.getUser({ id: Number(data.id) });
+        // if (!user) {
+        //     throw new NotFoundException();
+        // }
+        // if (
+        //     user.id !== id
+        //     && data.role !== Role.ADMIN
+        //     && data.role !== Role.SUPERVISOR
+        // ) {
+        //     throw new UnauthorizedException();
+        // }
 
         return await this.usersService.updateUser({
-            where: { id: Number(data.id) },
-            data
+            where: { id },
+            data: {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                role: data.role as Role,
+            }
         })
     }
 

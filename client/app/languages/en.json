@@ -32,7 +32,7 @@
     "tasks": "Tasks",
     "completedTasks": "Completed Tasks",
     "status": {
-      "pending": "Pending",
+      "completed": "Completed",
       "in_progress": "In Progress",
       "cancelled": "Cancelled"
     },
@@ -84,6 +84,23 @@
     "password": "Password"
   },
 
-  "loading": "Loading"
+  "loading": "Loading",
   
+  "user": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "password": "Password",
+      "title": "Users",
+      "create": "Create User",
+      "edit": "Edit User",
+      "delete": "Delete User",
+      "deleted": "User Deleted",
+      "created": "User Created",
+      "updated": "User Updated",
+      "error": "An error occurred. Error: ",
+      "cancel": "Cancel"
+    },
+
+    "submit": "Submit"
 }

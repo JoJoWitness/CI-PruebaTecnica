@@ -2,24 +2,16 @@ import { useTranslation } from "react-i18next";
 import { Project } from "../components/project";
 import { useEffect, useState } from "react";
 import {ProjectInput} from "../components/form";
-import type { ProjectType } from "~/schemas/types";
-import { fetchProject } from "~/api/projects";
+import { useProjects } from "~/hooks/useProjetcs";
 
 
 
 export default function Projects() {
   const { t} = useTranslation();
-  const [projects, setProjects] = useState<ProjectType | undefined>(undefined);
+  const projects = useProjects()
   const [isModalOpen, setIsModalOpen] = useState(false);
  
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchProject();
-      setProjects(data);
-    };
-    fetchData();
-  }, []);
-
+ 
   if (!projects || projects === null) {
     return(
     <section className="container position-relative p-16 h-screen flex flex-col">

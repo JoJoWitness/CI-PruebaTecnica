@@ -1,20 +1,25 @@
 import { t } from "i18next";
 import type { TaskValues } from "~/schemas/types";
 
-// export const createTask = async (data: TaskValues): Promise<void> => {
-// try {
-//   console.log("Creating task with data:", data);
-//   await fetch("http://localhost:3000/tasks", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   });
-// } catch (error) {
-//   console.error("Error creating task:", error);
-// }
-// }
+export const createTask = async (data: TaskValues): Promise<void> => {
+try {
+
+  const response = await fetch("http://localhost:3000/tasks", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  alert(t("task.created"));
+} catch (error) {
+  alert(t("task.error") + error);
+}
+}
 
 export const fetchTasks = async () => {
   try {
@@ -28,6 +33,28 @@ export const fetchTasks = async () => {
     console.error("Error fetching project:", error);
   }
 };
+
+export const updateTask = async (id: number, data: TaskValues): Promise<void> => {
+  try {
+    const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          
+          });
+    
+    if(!response.ok){
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    alert(t("task.updated"));
+
+    } catch (error) {
+      console.error("Error Updating project:", error);
+      alert(t("project.error") + error);
+    }
+}
 
 export const deleteTask = async (id: number) => {
   try {

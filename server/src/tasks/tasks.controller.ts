@@ -41,7 +41,7 @@ export class TasksController {
     @Put(':id')
     async updateTask(@Param('id', ParseIntPipe) id: number,@Body() data: updateTaskDto): Promise<Task> {
         return await this.tasksService.updateTask({
-            where: { id: data.id },
+            where: { id },
             data: {
                 title: data.title,
                 description: data.description,

@@ -1,35 +1,21 @@
-import { Task } from "~/components/task";
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { TaskInput } from "~/components/form";
-import type { ProjectType, TaskType } from "~/schemas/types";
-import {fetchTasks } from "~/api/tasks";
-import { fetchProject } from "~/api/projects";
 
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { UserForm } from "~/components/form";
+import { User } from "~/components/user";
+import { useUsers } from "~/hooks/useUsers";
 
 
 export default function Tasks() {
   const {t} = useTranslation();
-  const [tasks, setTasks] = useState<TaskType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [projects, setProjects] = useState<ProjectType | undefined>(undefined);
-  useEffect(() => {
-     
-  
-       const fetchData = async () => {
-          const data = await fetchTasks();
-          const dataP = await fetchProject();
-          setTasks(data);
-          setProjects(dataP);
-        };
+   const users = useUsers()
 
-      fetchData();
-    }, []);
 
-  if ((tasks == null) && (projects == undefined) ) {
+  if ((users == null)) {
     return(
     <section className="container position-relative p-16 h-screen flex flex-col">
-        <h1 className="text-4xl text-primary font-bold mb-6">{t("tasks")}</h1>
+        <h1 className="text-4xl text-primary font-bold mb-6">{t("users.title")}</h1>
         <p className="text-2xl font-medium text-text-primary dark:text-dark-text-primary">{t("loading")}...</p>
     </section>
     )
@@ -37,27 +23,27 @@ export default function Tasks() {
   return (
       <section className="container p-16 h-screen flex flex-col">
             <h1 className="text-4xl text-primary font-bold mb-6">{t("tasks")}</h1>
-            <div className="grid grid-cols-3 gap-4 bg-background-100 dark:bg-dark-background-100 py-4 px-12 rounded-lg  shadow-md mb-6 ">
+            <div className="grid grid-cols-4 gap-4 bg-background-100 dark:bg-dark-background-100 py-4 px-12 rounded-lg  shadow-md mb-6 ">
               <p className="text-2xl font-bold text-text-primary dark:text-dark-text-primary ">
-                {t("task.title")}
+                {t("user.name")}
               </p>
               <p className="text-2xl font-bold text-text-primary dark:text-dark-text-secondary">
-              {t("task.stat")}
+             {t("user.role")}
               </p>
               <p className="text-2xl font-bold text-text-primary dark:text-dark-text-primary">
-              {t("task.info")}
+              {t("user.email")}
               </p>
             </div>
             <div className="container flex flex-col gap-4  overflow-y-scroll scrollbar-custom">
               {/* @ts-ignore*/}
-              {tasks && tasks.map((task) => ( <Task key={task.id} project={projects} task={task}/>))}
+              {users && users.map((user) => ( <User key={user.id} user={user}/>))}
             </div>
             <button
               onClick={() => setIsModalOpen(true)}
               className="text-xl font-bold bg-primary fixed bottom-6 right-6 text-background dark:text-dark-background w-60 rounded-lg px-4 py-2 mt-6 
               border-3 border-primary hover:bg-background-100 dark:hover:bg-dark-background-100 hover:text-primary"
             >
-              {t("task.create")}
+              {t("user.create")}
             </button>
             {isModalOpen && (
             <div className="fixed inset-0 bg-background dark:bg-dark-background flex justify-center items-center z-50 w-screen h-screen">
@@ -68,7 +54,7 @@ export default function Tasks() {
                 >
                   X
                 </button>
-                <TaskInput />
+                <UserForm/>
               </div>
             </div>
           )}

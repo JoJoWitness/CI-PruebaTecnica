@@ -1,4 +1,3 @@
-import type { P } from "node_modules/react-router/dist/development/route-data-5OzAzQtT.mjs";
 import type { Path, UseFormRegister } from "react-hook-form";
 
 export enum StatusEnum {
@@ -27,7 +26,7 @@ export enum RoleEnum{
 
 export type EnumValues = StatusEnum | PriorityEnum | RoleEnum;
 
-export type UserPropsType = {
+export type UserType = {
   id: number;
   name: string;
   email: string;
@@ -35,7 +34,17 @@ export type UserPropsType = {
   role: RoleEnum;
   projects: ProjectType[]; 
   assignedTasks: TaskType[]; 
+  refreshToken?: string
 };
+
+export interface UserValues{
+  name: string,
+  email: string,
+  password?: string,
+  role: RoleEnum
+  refreshToken?: string
+
+}
 
 export type ProjectType = {
     id: number;
@@ -102,6 +111,12 @@ export type InputTextTaskType = {
   register: UseFormRegister<TaskValues>
 }
 
+export type InputTextUserType = {
+  value: Path<UserValues>;
+  label: string;
+  register: UseFormRegister<UserValues>
+}
+
 export type User = {
   id: number;
   name: string;
@@ -150,6 +165,13 @@ export type EnumDropdownProjectProps = {
     enumType: EnumValues; 
     register: UseFormRegister<ProjectValues>;
     value: Path<ProjectValues>;
+  };
+
+  export type EnumDropdownUserProps = {
+    label: string;
+    enumType: EnumValues; 
+    register: UseFormRegister<UserValues>;
+    value: Path<UserValues>;
   };
 
 export interface UserLogType {

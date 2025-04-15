@@ -1,13 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "i18next";
 import { useForm} from "react-hook-form";
-import {PriorityEnum, type TaskValues, StatusEnum, type User, type ProjectValues, RoleEnum, type UserLogType, StatusEnumProject, type ProjectType, type TaskType} from "~/schemas/types";
-import { ProjectSchema, TaskSchema, UserLogSchema} from "~/schemas/zod";
-import { DropdownInputGeneralMultiple, DropdownInputMultiple, DropdownInputSingle, DropdownProject, EnumDropdown, EnumDropdownProject, InputTextProject, InputTextTask, UserLogInput } from "./inputs";
+import {PriorityEnum, type TaskValues, StatusEnum, type User, type ProjectValues, RoleEnum, type UserLogType, StatusEnumProject, type ProjectType, type TaskType, type UserType, type UserValues} from "~/schemas/types";
+import { ProjectSchema, TaskSchema, UserLogSchema, UserSchema} from "~/schemas/zod";
+import { DropdownInputGeneralMultiple, DropdownInputMultiple, DropdownInputSingle, DropdownProject, EnumDropdown, EnumDropdownProject, EnumDropdownUser, InputTextProject, InputTextTask, InputTextUser, UserLogInput } from "./inputs";
 import { useEffect, useState } from "react";
 import { createProject, fetchProject, updateProject } from "~/api/projects";
-import { fetchUsers } from "~/api/users";
-import { useProjects } from "~/hooks/projectData";
+import { createUsers, fetchUsers, updateUsers } from "~/api/users";
+import { useProjects } from "~/hooks/useProjetcs";
+import { createTask, updateTask } from "~/api/tasks";
+import { useUsers } from "~/hooks/useUsers";
+
 
 
 
@@ -27,21 +30,11 @@ export const TaskInput = ({
       ? { ...initialValues, status: initialValues.status as StatusEnum, priority: initialValues.priority as PriorityEnum }
       : {}
   });
-
+  const projects = useProjects()
+  console.log("Projects in TaskInput:",  useProjects());
   const selectedProjectId = watch("projectId") || initialValues?.projectId;
-  const { data: projects, isLoading: isProjectsLoading } = useProjects();
-
-    useEffect(() => {
-         const fetchData = async () => {
-            const data = await fetchProject();
-            setProjectsAr(data);
-          };
-  
-        fetchData();
-      }, []);
-
-
   const assignedUsers = selectedProjectId
+    // @ts-ignore
     ? projects?.find((proj) => proj.id === parseInt(selectedProjectId))?.assignedUsers || []
     : [];
  
@@ -66,7 +59,7 @@ export const TaskInput = ({
       <DropdownProject
         label={t("task.project")}
         // @ts-ignore
-        projects={projects.projects} 
+        projects={projects} 
         register={register}
         value="projectId"
       />
@@ -101,7 +94,7 @@ export const TaskInput = ({
       />
       <button type="submit" className="text-xl border-3 border-primary font-bold bg-primary text-background dark:text-dark-background w-60 rounded-lg px-4 py-2
           hover:bg-transparent hover:text-primary">
-        Submit
+        {t("submit")}
       </button>
     </form>
   );
@@ -121,7 +114,7 @@ export const ProjectInput = ({
   };
   onSubmitSuccess?: () => void;
 }) =>{
-  const [users, setUsers] = useState<User[]>([])
+  const users = useUsers()
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<ProjectValues>({
     resolver: zodResolver(ProjectSchema),
@@ -149,14 +142,7 @@ export const ProjectInput = ({
     }
   };
 
-  useEffect(() => {
-   const fetchData = async () => {
-         const data = await fetchUsers();
-         setUsers(data);
-       };
-       fetchData();
-  }, []);
-  
+
  
 
 
@@ -171,6 +157,7 @@ export const ProjectInput = ({
             <DropdownInputSingle    
                 label={t("project.owner")}
                 userType={RoleEnum.SUPERVISOR}
+                // @ts-ignore
                 users={users} 
                 register={register}
                 value="ownerId"
@@ -182,6 +169,7 @@ export const ProjectInput = ({
             
             <DropdownInputMultiple
               label={t("project.users")}
+              // @ts-ignore
               users={users}
               register={register}
               value="assignedUsersID"
@@ -200,11 +188,83 @@ export const ProjectInput = ({
    
       <button type="submit" className="text-xl border-3 border-primary font-bold bg-primary text-background dark:text-dark-background w-60 rounded-lg px-4 py-2
           hover:bg-transparent hover:text-primary">
-        Submit
+         {t("submit")}
       </button>
     </form>
   );
 } 
+
+export const UserForm = ({
+  initialValues,
+  onSubmitSuccess,
+}: {
+  initialValues?:{ 
+    id?: number;
+    name: string;
+    email: string;
+    password?: string;
+    role: RoleEnum; 
+  
+  }
+  onSubmitSuccess?: () => void; 
+}) => {
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<UserValues>({
+    resolver: zodResolver(UserSchema),
+    defaultValues: initialValues 
+      ? { ...initialValues}
+      : {
+    
+    
+    }, 
+  });
+
+  const onSubmit = async (data: UserValues) => {
+    try {
+      if (initialValues?.id) {
+        console.log("Updating user with ID:", initialValues);
+        await updateUsers(initialValues.id, data);
+      } else {
+        await createUsers(data);
+      }
+      if (onSubmitSuccess) onSubmitSuccess(); 
+    } catch (error) {
+      console.error("Error submitting user:", error);
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="dark:text-dark-text-primary text-text-primary text-sm flex flex-col w-full items-center gap-3"
+    >
+   
+    <InputTextUser label={t("user.name")} register={register} value="name" />
+    {/*If one wants to change the password or email of a user is best to simply delete that user */} 
+    {!initialValues?.id && (
+      <>
+        <InputTextUser label={t("user.email")} register={register} value="email" />
+        <InputTextUser label={t("user.password")} register={register} value="password" />
+      </>
+    )}
+
+    <EnumDropdownUser
+        label={t("user.role")}
+        // @ts-ignore
+        enumType={Object.values(RoleEnum)}
+        register={register}
+        value="role"
+    />
+    
+
+      <button
+        type="submit"
+        className="text-xl border-3 border-primary font-bold bg-primary text-background dark:text-dark-background w-60 rounded-lg px-4 py-2 hover:bg-transparent hover:text-primary"
+      >
+        {t("submit")}
+      </button>
+    </form>
+  );
+};
 
 export const UserLogForm = () =>{
   const { register, handleSubmit, formState: { errors } } = useForm<UserLogType>({

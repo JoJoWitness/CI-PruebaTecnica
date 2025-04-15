@@ -1,4 +1,4 @@
-import { type DropdownMultipleProps, type DropdownProps, type EnumDropdownProps, type EnumValues, type DropdownMultipleGeneralProps, type EnumDropdownProjectProps, type UserLogType, type UserLogProp, type InputTextProjectType, type InputTextTaskType, type ProjectDropdownProps } from "~/schemas/types";
+import { type DropdownMultipleProps, type DropdownProps, type EnumDropdownProps, type EnumValues, type DropdownMultipleGeneralProps, type EnumDropdownProjectProps, type UserLogType, type UserLogProp, type InputTextProjectType, type InputTextTaskType, type ProjectDropdownProps, type InputTextUserType, type EnumDropdownUserProps } from "~/schemas/types";
 
 export const InputTextProject = ({ label, register, value}: InputTextProjectType) => {
   return (
@@ -12,6 +12,17 @@ export const InputTextProject = ({ label, register, value}: InputTextProjectType
 }  
 
 export const InputTextTask = ({ label, register, value}: InputTextTaskType) => {
+  return (
+  <div className="flex flex-col ">
+    <label className="font-bold"> {label} </label>
+    <input className="border border-dark-background dark:border-background rounded p-2 w-80"
+      {...register(value)}
+      />
+  </div>
+  )
+}  
+
+export const InputTextUser = ({ label, register, value}: InputTextUserType) => {
   return (
   <div className="flex flex-col ">
     <label className="font-bold"> {label} </label>
@@ -40,6 +51,7 @@ export const DropdownInputSingle = ({ label, users, userType, register, value }:
     </div>
   );
 };
+
 
 export const DropdownProject: React.FC<ProjectDropdownProps> = ({ label, projects, register, value }) => {
   return (
@@ -120,6 +132,7 @@ export const EnumDropdown = ({ label, enumType, register, value }: EnumDropdownP
     <div className="flex flex-col w-80">
       <label className="font-bold">{label}</label>
       <select {...register(value)} className="border border-dark-background dark:border-background rounded p-2 dark:bg-dark-background-100 bg-background-100 w-80">
+          {/*@ts-ignore*/}
         {enumType.map((enumValue: EnumValues) => (
           <option key={enumValue} value={enumValue}>
             {enumValue}
@@ -135,6 +148,23 @@ export const EnumDropdownProject = ({ label, enumType, register, value }: EnumDr
       <div className="flex flex-col w-80">
         <label className="block font-bold">{label}</label>
         <select {...register(value)} className="border border-dark-background dark:border-background rounded p-2 dark:bg-dark-background-100 bg-background-100">
+          {/*@ts-ignore*/}
+          {enumType.map((enumValue: EnumValues) => (
+            <option key={enumValue} value={enumValue}>
+              {enumValue}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  };
+
+  export const EnumDropdownUser = ({ label, enumType, register, value }: EnumDropdownUserProps) => {
+    return (
+      <div className="flex flex-col w-80">
+        <label className="block font-bold">{label}</label>
+        <select {...register(value)} className="border border-dark-background dark:border-background rounded p-2 dark:bg-dark-background-100 bg-background-100">
+            {/*@ts-ignore*/}
           {enumType.map((enumValue: EnumValues) => (
             <option key={enumValue} value={enumValue}>
               {enumValue}

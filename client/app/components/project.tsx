@@ -16,9 +16,6 @@ export const Project = ( project : ProjectType) => {
   const ownerId = owner.id;
   const [isEditing, setIsEditing] = useState(false);
 
-
-  
-
   const statusText =
     status === "CANCELLED"
       ? t("project.status.cancelled")

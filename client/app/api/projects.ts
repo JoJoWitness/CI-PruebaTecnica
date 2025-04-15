@@ -29,7 +29,6 @@ export const fetchProject = async (): Promise<ProjectType | undefined>  => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log("proyextos: ",data)
     return(data);
   } catch (error) {
     alert(t("project.error") + error);
@@ -38,7 +37,7 @@ export const fetchProject = async (): Promise<ProjectType | undefined>  => {
 
 export const updateProject = async (id: number, data: ProjectValues): Promise<void> => {
   try {
-  await fetch(`http://localhost:3000/projects/${id}`, {
+    const response = await fetch(`http://localhost:3000/projects/${id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -46,8 +45,14 @@ export const updateProject = async (id: number, data: ProjectValues): Promise<vo
             body: JSON.stringify(data),
           
           });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    alert(t("project.updated"));
+    
     } catch (error) {
-      console.error("Error Updating project:", error);
+     
       alert(t("project.error") + error);
     }
 }
@@ -62,7 +67,6 @@ export const deleteProject = async (id: number) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    console.log(`Project with ID ${id} deleted successfully`);
     alert(t("project.deleted"));
   } catch (error) {
     console.error("Error deleting project:", error);
