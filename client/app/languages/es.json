@@ -103,6 +103,6 @@
       "cancel": "Cancel"
     },
 
-    "submit": "Enviar"
-
+    "submit": "Enviar",
+    "logout": "Cerrar Sesion"
 }

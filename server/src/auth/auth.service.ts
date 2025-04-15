@@ -54,8 +54,9 @@ export class AuthService {
     }
 
     async refreshToken(refreshToken: string): Promise<{ accessToken: string; refreshToken?: string }> {
-        const user = await this.prisma.user.findFirst({ where: { refreshToken } });
-        console.log("ony")
+        
+        const user: User = await this.prisma.user.findFirst({ where: { refreshToken } });
+       
         if (!user || !user.refreshToken) {
             throw new UnauthorizedException('Invalid refresh token');
         }

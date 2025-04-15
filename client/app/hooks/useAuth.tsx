@@ -27,18 +27,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("token:", accessToken)
       if (accessToken) {
         setToken(accessToken);
-        const res = await fetch('http://localhost:3000/auth/refresh-token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-            'Credential': 'include',
-          },
-        });
- 
-        if (res.status === 200) {
-          setIsAuthenticated(true);
-        } 
+        setIsAuthenticated(true);
+      
       }
       setIsLoading(false);  
     } catch (error) {
@@ -79,8 +69,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('session-cookie'); 
+  const logout = async () => {
+    try {
+      await fetch('http://localhost:3000/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      localStorage.removeItem('accessToken');
+      setToken(null);
+      setIsAuthenticated(false);
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   useEffect(() => {

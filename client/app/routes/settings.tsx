@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "~/hooks/useAuth";
 
 export default function Settings() {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { t, i18n } = useTranslation();
   const [language, setLanguage] = useState(i18n.language);
-
+  const {logout} = useAuth()
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
     setLanguage(lang);
@@ -68,8 +69,19 @@ export default function Settings() {
               <div className="absolute left-1 top-1 w-6 h-6 bg-background dark:bg-primary rounded-full transition-transform peer-checked:translate-x-10"></div>
             </label>
           </div>
+          <div className="flex flex-col gap-4">
+          <p className="text-2xl text-text-secondary dark:text-dark-text-secondary">
+            {t("logout")}
+          </p>
+          <button
+            onClick={logout}
+            className="text-lg sm:text-xl font-bold bg-primary sm:bottom-6 sm:right-6 text-background dark:text-dark-background w-12 sm:w-60 rounded-lg sm:px-4 sm:py-2 
+            border-3 border-primary hover:bg-background-100 dark:hover:bg-dark-background-100 hover:text-primary"
+          >
+            {t("logout")}
+          </button>
       </div>
-           
+      </div>  
           </section>
 
   );

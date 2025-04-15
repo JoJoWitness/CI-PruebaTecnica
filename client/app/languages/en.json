@@ -102,5 +102,7 @@
       "cancel": "Cancel"
     },
 
-    "submit": "Submit"
+    "submit": "Submit",
+
+    "logout": "Logout"
 }
