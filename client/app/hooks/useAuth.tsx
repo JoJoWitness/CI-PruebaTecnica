@@ -24,17 +24,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const validateSession = async () => {
     try {
       const accessToken = localStorage.getItem('accessToken');
-      console.log(accessToken)
+      console.log("token:", accessToken)
       if (accessToken) {
         setToken(accessToken);
-        const res = await fetch('http://localhost:3000/auth/validate', {
-          method: 'GET',
+        const res = await fetch('http://localhost:3000/auth/refresh-token', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
+            'Credential': 'include',
           },
         });
-        console.log(res)
+ 
         if (res.status === 200) {
           setIsAuthenticated(true);
         } 

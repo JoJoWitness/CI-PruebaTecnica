@@ -24,9 +24,9 @@ export class CreateProjectDto {
 }
 
 export class UpdateProjectDto {
-    @IsNumber()
-    @IsOptional()
-    id: number
+    // @IsNumber()
+    // @IsOptional()
+    // id: number
 
     @IsString()
     @IsOptional()

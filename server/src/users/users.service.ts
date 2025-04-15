@@ -69,9 +69,12 @@ export class UsersService {
         return user
     }
 
-    async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<IUser> {
+    // TODO: fix Foreign key constraint violated: `Task_assignedToId_fkey (index)`
+    //* User that add assigned to a task can't be deleted 
+    async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
         return this.prisma.user.delete({
             where,
         });
     }
 }
+

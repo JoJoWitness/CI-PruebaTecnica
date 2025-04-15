@@ -9,16 +9,16 @@ async function seed() {
       data: {
         name: 'Admin User',
         email: 'admin@example.com',
-        password: 'password123',
+        password: '$2b$15$30Q2LvT4W1PqcLjP6cBCd.WbI.mA1XAvx1CeGs1rxTIDz8pSrFuwS',
         role: 'ADMIN',
       },
     });
-
+    
     const supervisor1 = await prisma.user.create({
       data: {
         name: 'Supervisor One',
         email: 'supervisor1@example.com',
-        password: 'password123', 
+        password: '$2b$15$30Q2LvT4W1PqcLjP6cBCd.WbI.mA1XAvx1CeGs1rxTIDz8pSrFuwS', 
         role: 'SUPERVISOR',
       },
     });
@@ -27,7 +27,7 @@ async function seed() {
       data: {
         name: 'Supervisor Two',
         email: 'supervisor2@example.com',
-        password: 'password123', 
+        password: '$2b$15$30Q2LvT4W1PqcLjP6cBCd.WbI.mA1XAvx1CeGs1rxTIDz8pSrFuwS', 
         role: 'SUPERVISOR',
       },
     });
@@ -38,7 +38,7 @@ async function seed() {
           data: {
             name: `Normal User ${i + 1}`,
             email: `user${i + 1}@example.com`,
-            password: 'password123',
+            password: '$2b$15$30Q2LvT4W1PqcLjP6cBCd.WbI.mA1XAvx1CeGs1rxTIDz8pSrFuwS',
             role: 'USER',
           },
         })

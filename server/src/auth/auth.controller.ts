@@ -62,6 +62,7 @@ export class AuthController {
     ) {
         const refreshToken = req.cookies?.refreshToken;
         if (!refreshToken) {
+            console.log("ggatito")
             throw new BadRequestException();
         }
 

@@ -8,7 +8,6 @@ const TaskContext = createContext<TaskType | null>(null);
 export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<TaskType | null>(null);
   const { token } = useAuth();
-  console.log(token)
   useEffect(() => {
     const fetchData = async () => {
       //@ts-ignore

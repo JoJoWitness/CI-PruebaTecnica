@@ -42,7 +42,7 @@
     ```bash
     npx prisma migrate dev --name init 
       #o 
-    yarn global add @nestjs/cli
+    yarn prisma migrate dev --name init 
     ```
   4. Para Trabajar con el JWT, seguir lo indicado en el .env.template **<ANY_RANDOM_STRING>** y escribir cualquier cadena de caracteres (idealmente, usar un string seguro, previamente hasheado)
   5. Finalmente, ejecutar el servidor con el siguiente comando:
@@ -58,4 +58,5 @@
   ```bash
   node mockdata.js
   ```
-
+### Como entrar
+  - En la **mockdata.js** se encuentra los usarios, la contraseña para todos es "password123"

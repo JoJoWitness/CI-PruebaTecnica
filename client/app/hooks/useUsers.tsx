@@ -8,7 +8,6 @@ const UsersContext = createContext<UserType | null>(null);
 export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [users, setUsers] = useState<UserType | null>(null);
   const { token } = useAuth();
-  console.log(token)
   useEffect(() => {
     const fetchData = async () => {
       //@ts-ignore

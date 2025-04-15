@@ -8,7 +8,6 @@ const ProjectsContext = createContext<ProjectType | null>(null);
 export const ProjectsProvider = ({ children }: { children: React.ReactNode }) => {
   const [projects, setProjects] = useState<ProjectType | null>(null);
   const { token } = useAuth();
-  console.log(token)
   useEffect(() => {
     const fetchData = async () => {
                             //@ts-ignore

@@ -2,7 +2,9 @@ import { t } from "i18next";
 import type { ProjectType, ProjectValues } from "~/schemas/types";
 
 export const createProject = async (data: ProjectValues,  accessToken: string): Promise<void> => {
-  try {
+    try {
+        
+        console.log("Creating project: ", data);
         const response = await fetch("http://localhost:3000/projects", {
           method: "POST",
           headers: {

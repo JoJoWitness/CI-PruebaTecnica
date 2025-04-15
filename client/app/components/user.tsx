@@ -4,6 +4,7 @@ import { deleteTask } from "~/api/tasks";
 import { useState } from "react";
 import { TaskInput, UserForm } from "./form";
 import { deleteUsers } from "~/api/users";
+import { useAuth } from "~/hooks/useAuth";
 
 
 
@@ -12,7 +13,8 @@ export const User = (user : UserType) => {
   const {id, name, password, email, role } = user.user
   const {t} = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
- 
+   const token = useAuth();
+   
   return (
     
     <div className='flex flex-col sm:grid sm:grid-cols-4 relative gap-4  bg-background-100 dark:bg-dark-background-100  rounded-lg p-4 shadow-sm text-text-secondary dark:text-dark-text-secondary  px-12'>
@@ -45,7 +47,8 @@ export const User = (user : UserType) => {
         <h2 className="text-lg font-bold">{email}</h2> 
         <div className="flex gap-3 mt-4 sm:absolute sm:top-3 sm:right-3 sm:mt-0">
         <button
-          onClick={() => deleteUsers(id)}
+        //@ts-ignore
+          onClick={() => deleteUsers(id, token)}
           className="p-2"
           aria-label="Delete Task"
         >

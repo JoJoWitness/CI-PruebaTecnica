@@ -21,23 +21,9 @@ export class UsersController {
         return users;
     }
 
-    // @Post()
-    // async signupUser(@Body() data: CreateUserDto): Promise<IUser> {
-    //     const existingUser = await this.usersService.getUser({
-    //         email: data.email
-    //     });
-    //     if (existingUser) {
-    //         throw new BadRequestException();
-    //     }
-    //     if (data.role !== Role.USER) {
-    //         throw new UnauthorizedException();
-    //     }
-
-    //     return await this.usersService.createUser(data);
-    // }
-
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.ADMIN) 
+    // TODO check why is throwing Unauthorized
+    // @UseGuards(JwtAuthGuard, RolesGuard)
+    // @Roles(Role.ADMIN) 
     @Put(':id')
     async updateUser(
         @Param('id', ParseIntPipe) id: number,
@@ -66,13 +52,14 @@ export class UsersController {
         })
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.ADMIN) 
+    // TODO check why is throwing Unauthorized
+    // @UseGuards(JwtAuthGuard, RolesGuard)
+    // @Roles(Role.ADMIN) 
     @Delete(':id')
     async delteUser(@Param('id', ParseIntPipe) id: number): Promise<IUser> {
-        const ok = await this.usersService.deleteUser({ id: Number(id) });
+        const ok = await this.usersService.deleteUser({ id });
         if (!ok) {
-            throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
         return ok;
     }

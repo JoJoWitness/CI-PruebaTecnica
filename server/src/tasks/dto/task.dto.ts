@@ -28,8 +28,8 @@ export class createTaskDto {
 }
 
 export class updateTaskDto {
-    @IsNumber()
-    id: number;
+    // @IsNumber()
+    // id: number;
 
     @IsString()
     @IsOptional()

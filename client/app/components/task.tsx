@@ -3,6 +3,8 @@ import type { ProjectType, TaskType } from "../schemas/types";
 import { deleteTask } from "~/api/tasks";
 import { useState } from "react";
 import { TaskInput } from "./form";
+import { useAuth } from "~/hooks/useAuth";
+
 
 
 
@@ -11,6 +13,8 @@ export const Task = (task : TaskType) => {
   const {id, title, description, project, assignedTo, status, priority, createdAt } = task.task;
   const {t} = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
+
+  const token = useAuth();
  
   const priority_bg =
   priority === "LOW"
@@ -79,7 +83,8 @@ export const Task = (task : TaskType) => {
       </div>
      <div className="flex gap-3 mt-4 sm:absolute sm:top-3 sm:right-3 sm:mt-0">
         <button
-          onClick={() => deleteTask(id)}
+            //@ts-ignore
+          onClick={() => deleteTask(id, token)}
           className="p-2"
           aria-label="Delete Task"
         >

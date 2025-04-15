@@ -41,7 +41,6 @@ export const TaskInput = ({
     : [];
  
   const { token } = useAuth();
-  console.log(token)
 
   const onSubmit = async (data: TaskValues) => {
     try {
@@ -145,7 +144,6 @@ export const ProjectInput = ({
   });
 
   const token = useAuth();
-  console.log(token)
 
   const onSubmit = async (data: ProjectValues) => {
     try {
@@ -239,8 +237,7 @@ export const UserForm = ({
   });
 
   const token = useAuth();
-  console.log(token)
-
+ 
   const onSubmit = async (data: UserValues) => {
     try {
       if (initialValues?.id) {

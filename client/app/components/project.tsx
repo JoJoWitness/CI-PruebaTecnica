@@ -5,6 +5,7 @@ import { useState } from "react";
 import deleteIcon from "../assets/icons/delete.svg";
 import edit from "../assets/icons/edit.svg";
 import { ProjectInput } from "./form";
+import { useAuth } from "~/hooks/useAuth";
 
 
 
@@ -15,7 +16,7 @@ export const Project = ( project : ProjectType) => {
   const { t } = useTranslation();
   const ownerId = owner.id;
   const [isEditing, setIsEditing] = useState(false);
-
+  const token = useAuth();
   const statusText =
     status === "CANCELLED"
       ? t("project.status.cancelled")
@@ -97,7 +98,8 @@ export const Project = ( project : ProjectType) => {
           </ul>
         </div>
         <button
-          onClick={() => deleteProject(id)}
+        // @ts-ignore
+          onClick={() => deleteProject(id, token)}
           className="hidden sm:block text-sm border-3 absolute top-6 right-6 border-red-500 font-bold bg-red-500 text-background dark:text-dark-background w-40 rounded-lg px-4 py-2
           hover:bg-transparent hover:text-red-500"
         >
@@ -105,7 +107,8 @@ export const Project = ( project : ProjectType) => {
         </button>
 
         <button
-          onClick={() => deleteProject(id)}
+        // @ts-ignore
+          onClick={() => deleteProject(id, token)}
           className="block sm:hidden absolute top-3 right-3"
           aria-label="Delete Project"
         >

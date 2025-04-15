@@ -17,7 +17,8 @@ export class CreateUserDto {
     role: Role;
 
     @IsString()
-    refreshToken: string
+    @IsOptional()
+    refreshToken?: string
 }
 
 export class UpdateUserDto {
