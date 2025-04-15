@@ -10,9 +10,10 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import "./i18n";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
+import Login from "./routes/login";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -66,7 +67,9 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <Outlet />
+      <ProtectedRoute>
+        <Outlet />
+      </ProtectedRoute>
     </AuthProvider>
   );
 }
@@ -76,17 +79,26 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <main className="flex h-screen justify-center items-center">
+      <main className="flex h-screen justify-center items-center dark:text-dark-text-primary text-text-primary">
         <p>Loading...</p>
       </main>
     );
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+   
+    
+    return(
+      <>
+        <Navigate to="/login" replace />
+        <Login />
+      </>
+    )
   }
 
-  return <>{children}</>; 
+  return <>
+          <Navigate to="/" replace />{children}
+        </>; 
 };
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

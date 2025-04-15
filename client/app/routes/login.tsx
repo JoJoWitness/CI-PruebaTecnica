@@ -2,6 +2,8 @@ import { UserLogForm} from "~/components/form";
 import logo from "../assets/icons/berry.svg"
 
 export default function Login() {
+  
+  console.log("Login page loaded");
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-background-100 dark:bg-dark-background-100">
        <div className="flex gap-2 items-end mb-3">

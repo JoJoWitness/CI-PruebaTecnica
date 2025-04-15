@@ -8,6 +8,7 @@ try {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`,
     },
     body: JSON.stringify(data),
   });
@@ -23,7 +24,13 @@ try {
 
 export const fetchTasks = async ( accessToken: string) => {
   try {
-    const response = await fetch("http://localhost:3000/tasks");
+    const response = await fetch("http://localhost:3000/tasks",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      },
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -40,6 +47,7 @@ export const updateTask = async (id: number, data: TaskValues,  accessToken: str
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": `Bearer ${accessToken}`,
             },
             body: JSON.stringify(data),
           
@@ -60,6 +68,10 @@ export const deleteTask = async (id: number, accessToken: string) => {
   try {
     const response = await fetch(`http://localhost:3000/tasks/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      },
     });
 
     if (!response.ok) {

@@ -3,7 +3,7 @@ import type { UserValues } from "~/schemas/types";
 
 export const createUsers = async (data: UserValues, accessToken: string): Promise<void> => {
 try {
-  const response = await fetch("http://localhost:3000/users", {
+  const response = await fetch("http://localhost:3000/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

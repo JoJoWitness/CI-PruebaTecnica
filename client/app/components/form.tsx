@@ -40,13 +40,17 @@ export const TaskInput = ({
     ? projects?.find((proj) => proj.id === parseInt(selectedProjectId))?.assignedUsers || []
     : [];
  
+  const { token } = useAuth();
+  console.log(token)
 
   const onSubmit = async (data: TaskValues) => {
     try {
       if (initialValues?.id) {
-        await updateTask(initialValues.id, data);
+        //@ts-ignore
+        await updateTask(initialValues.id, data,token);
       } else {
-        await createTask(data);
+        //@ts-ignore
+        await createTask(data, token);
       }
       if (onSubmitSuccess) onSubmitSuccess();
     } catch (error) {
@@ -140,14 +144,17 @@ export const ProjectInput = ({
     },
   });
 
+  const token = useAuth();
+  console.log(token)
 
   const onSubmit = async (data: ProjectValues) => {
     try {
       if (initialValues?.id) {
-       await updateProject(initialValues.id, data);
+        //@ts-ignore
+       await updateProject(initialValues.id, data, token);
       } else {
-
-        await createProject(data);
+        //@ts-ignore
+        await createProject(data,token);
       }
       if (onSubmitSuccess) onSubmitSuccess();
     } catch (error) {
@@ -231,13 +238,17 @@ export const UserForm = ({
     }, 
   });
 
+  const token = useAuth();
+  console.log(token)
+
   const onSubmit = async (data: UserValues) => {
     try {
       if (initialValues?.id) {
-        console.log("Updating user with ID:", initialValues);
-        await updateUsers(initialValues.id, data);
+        //@ts-ignore
+        await updateUsers(initialValues.id, data, token);
       } else {
-        await createUsers(data);
+        //@ts-ignore
+        await createUsers(data, token);
       }
       if (onSubmitSuccess) onSubmitSuccess(); 
     } catch (error) {

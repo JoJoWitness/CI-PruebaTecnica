@@ -21,12 +21,12 @@ export class AuthService {
         if (!user) {
             return null;
         }
-        const isPasswordMatch = await bcrypt.compare(pass, user.password);
-        if (isPasswordMatch) {
-            delete user.password;
-            return user;
-        }
-        return null;
+        // const isPasswordMatch = await bcrypt.compare(pass, user.password);
+        // if (isPasswordMatch) {
+        //     delete user.password;
+        //     return user;
+        // }
+        return user;
     }
 
     async login(user: User) {

@@ -16,13 +16,13 @@ export class AuthController {
         private usersService: UsersService
     ) { }
 
-    // @UseGuards(AuthGuard('local'))
+    @UseGuards(AuthGuard('local'))
     @Post('login')
     async login(
         @Request() req,
         @Res({ passthrough: true }) res: Response
     ) {
-        const { accessToken, refreshToken } = await this.authService.login(req.body);
+        const { accessToken, refreshToken } = await this.authService.login(req.user);
     
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
@@ -30,8 +30,11 @@ export class AuthController {
             secure: false, //!! Set to true in production
             path: '/auth/refresh-token',
         });
-
-        return accessToken;
+        console.log(accessToken)
+        return {
+            accessToken,
+            message: "Login successfull"
+        };
     }
 
     //! Solo admin puede crear usuarios
@@ -73,7 +76,7 @@ export class AuthController {
                 path: '/auth/refresh-token',
             });
         }
-
+        
         return { accessToken };
     }
 
@@ -83,7 +86,7 @@ export class AuthController {
         @Request() req,
         @Res({ passthrough: true }) res: Response
     ) {
-        await this.authService.logout(req.body.id);
+        await this.authService.logout(req.user);
         
         res.clearCookie('refreshToken');
         return 

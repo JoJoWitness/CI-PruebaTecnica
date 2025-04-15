@@ -27,28 +27,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(accessToken)
       if (accessToken) {
         setToken(accessToken);
-        const res = await fetch('http://localhost:3000/auth/login', {
-          method: 'POST',
+        const res = await fetch('http://localhost:3000/auth/validate', {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
           },
         });
-  
+        console.log(res)
         if (res.status === 200) {
           setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } else {
-        setIsAuthenticated(false);
+        } 
       }
+      setIsLoading(false);  
     } catch (error) {
       console.error('Error validating session:', error);
       setIsAuthenticated(false);
-    } finally {
       setIsLoading(false); 
-    }
+    } 
   };
 
   const login = async (user: string, password: string): Promise<void> => {
@@ -68,11 +64,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
 
-      const tokenT = res.headers.get('accessToken');
+      const data = await res.json();
+      const tokenT = data.accessToken;
       if (tokenT) {
         localStorage.setItem('accessToken', tokenT);
         setToken(tokenT);
-        console.log("Mal ryuk que suena")
         setIsAuthenticated(true);
       }
 

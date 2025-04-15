@@ -25,11 +25,10 @@ export class TasksController {
     @Post()
     async createTask(@Body() data: createTaskDto): Promise<Task> {
         return await this.tasksService.createTask({
-            ...data,
-            // title: data.title,
-            // description: data.description,
-            // status: data.status,
-            // priority: data.priority,
+            title: data.title,
+            description: data.description,
+            status: data.status,
+            priority: data.priority,
             project: { connect: { id: data.projectId } },
             assignedTo: { connect: { id: data.assignedToId } }
         });
@@ -54,7 +53,7 @@ export class TasksController {
                 throw new ForbiddenException();
             }
             return await this.tasksService.updateTask({
-                where: { id: data.id },
+                where: { id },
                 data: {
                     status: data.status,
                 }
@@ -65,10 +64,10 @@ export class TasksController {
             where: { id },
             data: {
                 ...data,
-                // title: data.title,
-                // description: data.description,
-                // status: data.status,
-                // priority: data.priority ,
+                title: data.title,
+                description: data.description,
+                status: data.status,
+                priority: data.priority ,
                 assignedTo: data.assignedToId ? { connect: { id: data.assignedToId } } : undefined,
                 //? It doesn't have sense to allow project change
             } 

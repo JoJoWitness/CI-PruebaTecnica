@@ -5,26 +5,17 @@ import { TaskInput } from "~/components/form";
 import type { ProjectType, TaskType } from "~/schemas/types";
 import {fetchTasks } from "~/api/tasks";
 import { fetchProject } from "~/api/projects";
+import { useTasks } from "~/hooks/useTasks";
+import { useProjects } from "~/hooks/useProjetcs";
 
 
 
 export default function Tasks() {
   const {t} = useTranslation();
-  const [tasks, setTasks] = useState<TaskType | null>(null);
+  const tasks = useTasks();
+  const projects = useProjects();
   const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [projects, setProjects] = useState<ProjectType | undefined>(undefined);
-  useEffect(() => {
-     
   
-       const fetchData = async () => {
-          const data = await fetchTasks();
-          const dataP = await fetchProject();
-          setTasks(data);
-          setProjects(dataP);
-        };
-
-      fetchData();
-    }, []);
 
   if ((tasks == null) && (projects == undefined) ) {
     return(

@@ -27,9 +27,8 @@ export class ProjectsController {
         const users = data.assignedUsersID.map((id) => ({ id })) || [];
 
         return await this.projectsService.createProject({
-            ...data,
-            // name: data.name,
-            // description: data.description,
+            name: data.name,
+            description: data.description,
             owner: { connect: { id: data.ownerId } },
             assignedUsers: { connect: users },
             status: data.status,
@@ -61,10 +60,9 @@ export class ProjectsController {
 
         return await this.projectsService.updateProject({
             where: { id },
-            data: {
-                ...data,
-                // name: data.name,
-                // description: data.description,
+            data: { 
+                name: data.name,
+                description: data.description,
                 owner: data.ownerId ? { connect: { id: data.ownerId } } : undefined,
                 assignedUsers: {
                     set: users
