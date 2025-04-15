@@ -98,11 +98,27 @@ export const Project = ( project : ProjectType) => {
         </div>
         <button
           onClick={() => deleteProject(id)}
-          className="text-sm border-3 absolute top-6 right-6 border-red-500 font-bold bg-red-500 text-background dark:text-dark-background w-40 rounded-lg px-4 py-2
+          className="hidden sm:block text-sm border-3 absolute top-6 right-6 border-red-500 font-bold bg-red-500 text-background dark:text-dark-background w-40 rounded-lg px-4 py-2
           hover:bg-transparent hover:text-red-500"
         >
           {t("project.delete")}
-        
+        </button>
+
+        <button
+          onClick={() => deleteProject(id)}
+          className="block sm:hidden absolute top-3 right-3"
+          aria-label="Delete Project"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="32px"
+            viewBox="0 -960 960 960"
+            width="32px"
+            fill="currentColor"
+            className="text-red-500 hover:text-red-700 transition-all duration-200"
+          >
+            <path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z" />
+          </svg>
         </button>
         <button
             onClick={() => setIsEditing(true)}

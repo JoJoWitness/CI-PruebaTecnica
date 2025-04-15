@@ -1,12 +1,13 @@
 import { t } from "i18next";
 import type { ProjectType, ProjectValues } from "~/schemas/types";
 
-export const createProject = async (data: ProjectValues): Promise<void> => {
+export const createProject = async (data: ProjectValues,  accessToken: string): Promise<void> => {
   try {
         const response = await fetch("http://localhost:3000/projects", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`,
           },
           body: JSON.stringify(data),
         });
@@ -22,9 +23,15 @@ export const createProject = async (data: ProjectValues): Promise<void> => {
 }
 
 
-export const fetchProject = async (): Promise<ProjectType | undefined>  => {
+export const fetchProject = async ( accessToken: string): Promise<ProjectType | undefined>  => {
   try {
-    const response = await fetch("http://localhost:3000/projects");
+    const response = await fetch("http://localhost:3000/projects",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      },
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -35,12 +42,13 @@ export const fetchProject = async (): Promise<ProjectType | undefined>  => {
   }
 };
 
-export const updateProject = async (id: number, data: ProjectValues): Promise<void> => {
+export const updateProject = async (id: number, data: ProjectValues,  accessToken: string): Promise<void> => {
   try {
     const response = await fetch(`http://localhost:3000/projects/${id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": `Bearer ${accessToken}`,
             },
             body: JSON.stringify(data),
           
@@ -57,10 +65,14 @@ export const updateProject = async (id: number, data: ProjectValues): Promise<vo
     }
 }
 
-export const deleteProject = async (id: number) => {
+export const deleteProject = async (id: number,  accessToken: string) => {
   try {
     const response = await fetch(`http://localhost:3000/projects/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      },
     });
 
     if (!response.ok) {

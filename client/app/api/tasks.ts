@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import type { TaskValues } from "~/schemas/types";
 
-export const createTask = async (data: TaskValues): Promise<void> => {
+export const createTask = async (data: TaskValues, accessToken: string ): Promise<void> => {
 try {
 
   const response = await fetch("http://localhost:3000/tasks", {
@@ -21,7 +21,7 @@ try {
 }
 }
 
-export const fetchTasks = async () => {
+export const fetchTasks = async ( accessToken: string) => {
   try {
     const response = await fetch("http://localhost:3000/tasks");
     if (!response.ok) {
@@ -34,7 +34,7 @@ export const fetchTasks = async () => {
   }
 };
 
-export const updateTask = async (id: number, data: TaskValues): Promise<void> => {
+export const updateTask = async (id: number, data: TaskValues,  accessToken: string): Promise<void> => {
   try {
     const response = await fetch(`http://localhost:3000/tasks/${id}`, {
             method: "PUT",
@@ -56,7 +56,7 @@ export const updateTask = async (id: number, data: TaskValues): Promise<void> =>
     }
 }
 
-export const deleteTask = async (id: number) => {
+export const deleteTask = async (id: number, accessToken: string) => {
   try {
     const response = await fetch(`http://localhost:3000/tasks/${id}`, {
       method: "DELETE",

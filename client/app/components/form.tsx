@@ -10,6 +10,8 @@ import { createUsers, fetchUsers, updateUsers } from "~/api/users";
 import { useProjects } from "~/hooks/useProjetcs";
 import { createTask, updateTask } from "~/api/tasks";
 import { useUsers } from "~/hooks/useUsers";
+import { useAuth } from "~/hooks/useAuth";
+
 
 
 
@@ -53,31 +55,40 @@ export const TaskInput = ({
   };
   
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="dark:text-dark-text-primary text-text-primary text-sm flex flex-col w-full items-center gap-3">
-      
-      {!initialValues?.id && ( 
-      <DropdownProject
-        label={t("task.project")}
-        // @ts-ignore
-        projects={projects} 
-        register={register}
-        value="projectId"
-      />
-      )
-      }
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="dark:text-dark-text-primary text-text-primary text-sm flex flex-col w-full items-center gap-3 px-4 sm:px-8"
+    >
+      {!initialValues?.id && (
+        <DropdownProject
+          label={t("task.project")}
+          // @ts-ignore
+          projects={projects}
+          register={register}
+          value="projectId"
+        />
+      )}
 
-      
-      <InputTextTask label={t("task.titleT")} register={register} value="title" />
-      <InputTextTask label={t("task.descriptionT")} register={register} value="description" />
-      
-      
+      <InputTextTask
+        label={t("task.titleT")}
+        register={register}
+        value="title"
+      />
+      <InputTextTask
+        label={t("task.descriptionT")}
+        register={register}
+        value="description"
+      />
+
       <DropdownInputGeneralMultiple
         label={t("task.users")}
-        users={assignedUsers} 
+        users={assignedUsers}
         register={register}
         value="assignedToId"
       />
-       {errors.assignedToId && <p className="text-red-500">{errors.assignedToId.message}</p>}
+      {errors.assignedToId && (
+        <p className="text-red-500">{errors.assignedToId.message}</p>
+      )}
       <EnumDropdown
         label={t("task.stat")}
         // @ts-ignore
@@ -88,12 +99,14 @@ export const TaskInput = ({
       <EnumDropdown
         label={t("task.priority")}
         // @ts-ignore
-        enumType={Object.values(PriorityEnum)} 
+        enumType={Object.values(PriorityEnum)}
         register={register}
         value="priority"
       />
-      <button type="submit" className="text-xl border-3 border-primary font-bold bg-primary text-background dark:text-dark-background w-60 rounded-lg px-4 py-2
-          hover:bg-transparent hover:text-primary">
+      <button
+        type="submit"
+        className="text-xl border-3 border-primary font-bold bg-primary text-background dark:text-dark-background w-full sm:w-60 rounded-lg px-4 py-2 hover:bg-transparent hover:text-primary"
+      >
         {t("submit")}
       </button>
     </form>
@@ -266,24 +279,35 @@ export const UserForm = ({
   );
 };
 
-export const UserLogForm = () =>{
+export const UserLogForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<UserLogType>({
     resolver: zodResolver(UserLogSchema),
-    
   });
-  const onSubmit = (data: UserLogType) => {
 
-    
+  const {login} = useAuth()
+  const onSubmit = async (data: UserLogType) => {
+    try {
+      await login(data.email, data.password); 
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="dark:text-dark-text-primary text-text-primary text-sm flex flex-col w-full items-center gap-3">
-      <UserLogInput label={t("login.email")} register={register} value="email" />
-      <UserLogInput label={t("login.password")} register={register} value="password" />
-      <button type="submit" className="text-xl border-3 border-primary font-bold bg-primary text-background dark:text-dark-background w-60 rounded-lg px-4 py-2
-          hover:bg-transparent hover:text-primary">
-        Submit
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="dark:text-dark-text-primary text-text-primary text-sm flex flex-col w-full items-center gap-3"
+    >
+      <UserLogInput type="text" label={t("login.email")} register={register} value="email" />
+      <UserLogInput type="password" label={t("login.password")} register={register} value="password" />
+      {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+      {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+      <button
+        type="submit"
+        className="text-xl border-3 border-primary font-bold bg-primary text-background dark:text-dark-background w-60 rounded-lg px-4 py-2 hover:bg-transparent hover:text-primary"
+      >
+        {t("submit")}
       </button>
     </form>
   );
-}
+};

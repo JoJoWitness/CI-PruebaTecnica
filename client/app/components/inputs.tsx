@@ -4,7 +4,7 @@ export const InputTextProject = ({ label, register, value}: InputTextProjectType
   return (
   <div className="flex flex-col">
     <label className="font-bold"> {label} </label>
-    <input className="border border-dark-background dark:border-background rounded p-2 w-80"
+    <input className="border border-dark-background dark:border-background rounded p-2 sm:w-80 w-60"
       {...register(value)}
       />
   </div>
@@ -15,7 +15,7 @@ export const InputTextTask = ({ label, register, value}: InputTextTaskType) => {
   return (
   <div className="flex flex-col ">
     <label className="font-bold"> {label} </label>
-    <input className="border border-dark-background dark:border-background rounded p-2 w-80"
+    <input className="border border-dark-background dark:border-background rounded p-2 sm:w-80 w-60"
       {...register(value)}
       />
   </div>
@@ -26,7 +26,7 @@ export const InputTextUser = ({ label, register, value}: InputTextUserType) => {
   return (
   <div className="flex flex-col ">
     <label className="font-bold"> {label} </label>
-    <input className="border border-dark-background dark:border-background rounded p-2 w-80"
+    <input className="border border-dark-background dark:border-background rounded p-2 sm:w-80 w-60"
       {...register(value)}
       />
   </div>
@@ -40,7 +40,7 @@ export const DropdownInputSingle = ({ label, users, userType, register, value }:
     <div className="flex flex-col">
       <label className="font-bold">{label}</label>
       <select {...register(value, { valueAsNumber: true })} className="border border-dark-background
-       dark:border-background rounded bg-background-100 dark:bg-dark-background-100 p-2 w-80 ">
+       dark:border-background rounded bg-background-100 dark:bg-dark-background-100 p-2 sm:w-80 w-60 ">
         <option value="">Select a {userType.toLowerCase()}</option>
         {filteredUsers.map((user) => (
           <option key={user.id} value={user.id}>
@@ -55,7 +55,7 @@ export const DropdownInputSingle = ({ label, users, userType, register, value }:
 
 export const DropdownProject: React.FC<ProjectDropdownProps> = ({ label, projects, register, value }) => {
   return (
-    <div className="flex flex-col w-80">
+    <div className="flex flex-col sm:w-80 w-60">
       <label className="font-bold">{label}</label>
       <select
         {...register(value, { valueAsNumber: true })}
@@ -87,7 +87,7 @@ export const DropdownInputMultiple = ({ label, users, register, value, setValue,
   return (
     <div className="flex flex-col gap-2">
       <label className="block font-bold">{label}</label>
-      <div className="flex flex-wrap gap-2 max-h-40 w-80 overflow-auto scrollbar-custom">
+      <div className="flex flex-wrap gap-2 max-h-40 sm:w-80 w-60 overflow-auto scrollbar-custom">
         {filteredUsers.map((user) => (
           <button
             key={user.id}
@@ -110,7 +110,7 @@ export const DropdownInputMultiple = ({ label, users, register, value, setValue,
 
 export const DropdownInputGeneralMultiple = ({ label, users, register, value }: DropdownMultipleGeneralProps) => {
   return (
-    <div className="flex flex-col w-80">
+    <div className="flex flex-col sm:w-80 w-60">
       <label className="block font-bold">{label}</label>
       <select
         {...register(value, { valueAsNumber: true })}
@@ -118,7 +118,7 @@ export const DropdownInputGeneralMultiple = ({ label, users, register, value }: 
         dark:bg-dark-background-100 bg-background-100"
       >
         {users.map((user) => (
-          <option className="font-bold w-80 " key={user.id} value={user.id}>
+          <option className="font-bold sm:w-80 w-60 " key={user.id} value={user.id}>
             {user.name}
           </option>
         ))}
@@ -129,9 +129,9 @@ export const DropdownInputGeneralMultiple = ({ label, users, register, value }: 
 
 export const EnumDropdown = ({ label, enumType, register, value }: EnumDropdownProps) => {
   return (
-    <div className="flex flex-col w-80">
+    <div className="flex flex-col sm:w-80 w-60">
       <label className="font-bold">{label}</label>
-      <select {...register(value)} className="border border-dark-background dark:border-background rounded p-2 dark:bg-dark-background-100 bg-background-100 w-80">
+      <select {...register(value)} className="border border-dark-background dark:border-background rounded p-2 dark:bg-dark-background-100 bg-background-100 sm:w-80 w-60">
           {/*@ts-ignore*/}
         {enumType.map((enumValue: EnumValues) => (
           <option key={enumValue} value={enumValue}>
@@ -145,7 +145,7 @@ export const EnumDropdown = ({ label, enumType, register, value }: EnumDropdownP
 
 export const EnumDropdownProject = ({ label, enumType, register, value }: EnumDropdownProjectProps) => {
     return (
-      <div className="flex flex-col w-80">
+      <div className="flex flex-col sm:w-80 w-60">
         <label className="block font-bold">{label}</label>
         <select {...register(value)} className="border border-dark-background dark:border-background rounded p-2 dark:bg-dark-background-100 bg-background-100">
           {/*@ts-ignore*/}
@@ -161,7 +161,7 @@ export const EnumDropdownProject = ({ label, enumType, register, value }: EnumDr
 
   export const EnumDropdownUser = ({ label, enumType, register, value }: EnumDropdownUserProps) => {
     return (
-      <div className="flex flex-col w-80">
+      <div className="flex flex-col sm:w-80 w-60">
         <label className="block font-bold">{label}</label>
         <select {...register(value)} className="border border-dark-background dark:border-background rounded p-2 dark:bg-dark-background-100 bg-background-100">
             {/*@ts-ignore*/}
@@ -175,12 +175,12 @@ export const EnumDropdownProject = ({ label, enumType, register, value }: EnumDr
     );
   };
   
-export const UserLogInput = ({ label, register, value }: UserLogProp) => {
+export const UserLogInput = ({type, label, register, value }: UserLogProp) => {
   return (
     <div className="flex flex-col">
       <label className="font-bold">{label}</label>
       <input
-        type="text"
+        type={type}
         {...register(value)}
         className="border border-dark-background dark:border-background rounded p-2 w-60  text-text-primary dark:text-dark-text-primary"
       />

@@ -14,14 +14,14 @@ export default function Projects() {
  
   if (!projects || projects === null) {
     return(
-    <section className="container position-relative p-16 h-screen flex flex-col">
+    <section className="container position-relative p-6 sm:p-16 h-screen flex flex-col">
       <h1 className="text-4xl text-primary font-bold mb-6">{t("projects")}</h1>
       <p className="text-2xl font-medium text-text-primary dark:text-dark-text-primary">{t("loading")}...</p>
     </section>
     )
   }
   return (
-      <section className="container position-relative p-16 h-screen flex flex-col">
+      <section className="container position-relative p-6 sm:p-16 h-screen flex flex-col">
         <h1 className="text-4xl text-primary font-bold mb-6">{t("projects")}</h1>
         <div className="container flex flex-col gap-6 overflow-y-scroll scrollbar-custom ">
           {/* @ts-ignore*/}
@@ -29,10 +29,11 @@ export default function Projects() {
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="text-xl font-bold bg-primary fixed bottom-12 right-6 text-background dark:text-dark-background w-60 rounded-lg px-4 py-2 mt-6 
-          border-3 border-primary hover:bg-background-100 dark:hover:bg-dark-background-100 hover:text-primary"
+           className="text-lg sm:text-xl font-bold bg-primary fixed bottom-6 right-4 sm:bottom-6 sm:right-6 text-background dark:text-dark-background w-12 sm:w-60 rounded-lg sm:px-4 sm:py-2 mt-6 
+        border-3 border-primary hover:bg-background-100 dark:hover:bg-dark-background-100 hover:text-primary"
         >
-          {t("project.create")}
+            <span className="block sm:hidden text-3xl text-center">+</span>
+            <span className="hidden sm:block">{t("project.create")}</span>
         </button>
         {isModalOpen && (
         <div className="fixed inset-0 bg-background dark:bg-dark-background flex justify-center items-center z-50 w-screen h-screen">

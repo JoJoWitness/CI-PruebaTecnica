@@ -1,12 +1,13 @@
 import { t } from "i18next";
 import type { UserValues } from "~/schemas/types";
 
-export const createUsers = async (data: UserValues): Promise<void> => {
+export const createUsers = async (data: UserValues, accessToken: string): Promise<void> => {
 try {
   const response = await fetch("http://localhost:3000/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`,
     },
     body: JSON.stringify(data),
   });
@@ -21,9 +22,15 @@ try {
 }
 }
 
-export const fetchUsers = async () => {
+export const fetchUsers = async (accessToken: string) => {
       try {
-        const response = await fetch("http://localhost:3000/users");
+        const response = await fetch("http://localhost:3000/users", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`,
+          },
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -35,12 +42,13 @@ export const fetchUsers = async () => {
       }
     };
 
-export const updateUsers = async (id: number, data: UserValues): Promise<void> => {
+export const updateUsers = async (id: number, data: UserValues, accessToken: string): Promise<void> => {
   try {
     const response = await fetch(`http://localhost:3000/users/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
       },
       body: JSON.stringify(data),
     
@@ -56,10 +64,14 @@ export const updateUsers = async (id: number, data: UserValues): Promise<void> =
     }
 }
 
-export const deleteUsers = async (id: number) => {
+export const deleteUsers = async (id: number, accessToken: string) => {
   try {
     const response = await fetch(`http://localhost:3000/users/${id}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`,
+      }
     });
 
     if (!response.ok) {

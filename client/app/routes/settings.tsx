@@ -36,7 +36,7 @@ export default function Settings() {
   }, []);
 
   return (
-      <section className="container p-16">
+      <section className="container p-6 sm:p-16">
             <h1 className="text-4xl text-primary font-bold mb-6">{t("settings")}</h1>
             
         <div className="container flex flex-col gap-6">

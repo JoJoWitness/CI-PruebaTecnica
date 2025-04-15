@@ -180,6 +180,7 @@ export interface UserLogType {
 };
 
 export type UserLogProp = {
+  type: string;
   label: string;
   register: UseFormRegister<UserLogType>;
   value: Path<UserLogType>;

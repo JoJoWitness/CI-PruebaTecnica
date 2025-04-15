@@ -2,6 +2,7 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
+  Navigate,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -11,6 +12,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { useEffect } from "react";
 import "./i18n";
+import { AuthProvider, useAuth } from "./hooks/useAuth";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -47,22 +49,45 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { isAuthenticated, isLoading } = useAuth();
 
-    useEffect(() => {
-      
-      const storedTheme = localStorage.theme;
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  
-      if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
-        document.documentElement.classList.add("dark");
-      } else {
+  useEffect(() => {
+    const storedTheme = localStorage.theme;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-        document.documentElement.classList.remove("dark");
-      }
-    }, []);
+    if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
 
-  return <Outlet />;
+ 
+
+  return (
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
+  );
 }
+
+export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <main className="flex h-screen justify-center items-center">
+        <p>Loading...</p>
+      </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>; 
+};
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Oops!";

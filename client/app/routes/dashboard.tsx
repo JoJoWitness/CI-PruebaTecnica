@@ -1,148 +1,45 @@
 import { useTranslation } from "react-i18next";
+import { useProjects } from "~/hooks/useProjetcs";
+import { useTasks } from "~/hooks/useTasks";
 
-const mockProjects = [
-  {
-    id: 1,
-    name: "Website Redesign",
-    description: "Redesign the company website to improve user experience.",
-    owner: { id: 101, name: "Alice Johnson" },
-    assignedUsers: [
-      { id: 201, name: "John Doe" },
-      { id: 202, name: "Jane Smith" },
-    ],
-    tasks: [
-      { id: 301, title: "Create Wireframes", status: "COMPLETED", priority: "HIGH" },
-      { id: 302, title: "Develop Frontend", status: "IN_PROGRESS", priority: "MEDIUM" },
-      { id: 303, title: "Setup Backend", status: "PENDING", priority: "LOW" },
-    ],
-    status: "IN_PROGRESS",
-    createdAt: "2025-04-11T10:00:00Z",
-  },
-  {
-    id: 2,
-    name: "API Development",
-    description: "Develop the backend API for the application.",
-    owner: { id: 102, name: "Bob Williams" },
-    assignedUsers: [
-      { id: 203, name: "Alice Johnson" },
-      { id: 204, name: "Charlie Brown" },
-    ],
-    tasks: [
-      { id: 304, title: "Setup Database", status: "PENDING", priority: "HIGH" },
-      { id: 305, title: "Implement Authentication", status: "IN_PROGRESS", priority: "MEDIUM" },
-    ],
-    status: "PENDING",
-    createdAt: "2025-04-10T12:00:00Z",
-  },
-  {
-    id: 4,
-    name: "API Development",
-    description: "Develop the backend API for the application.",
-    owner: { id: 102, name: "Bob Williams" },
-    assignedUsers: [
-      { id: 203, name: "Alice Johnson" },
-      { id: 204, name: "Charlie Brown" },
-    ],
-    tasks: [
-      { id: 304, title: "Setup Database", status: "PENDING", priority: "HIGH" },
-      { id: 305, title: "Implement Authentication", status: "IN_PROGRESS", priority: "MEDIUM" },
-    ],
-    status: "PENDING",
-    createdAt: "2025-04-10T12:00:00Z",
-  },
-  {
-    id: 5,
-    name: "API Development",
-    description: "Develop the backend API for the application.",
-    owner: { id: 102, name: "Bob Williams" },
-    assignedUsers: [
-      { id: 203, name: "Alice Johnson" },
-      { id: 204, name: "Charlie Brown" },
-    ],
-    tasks: [
-      { id: 304, title: "Setup Database", status: "PENDING", priority: "HIGH" },
-      { id: 305, title: "Implement Authentication", status: "IN_PROGRESS", priority: "MEDIUM" },
-    ],
-    status: "PENDING",
-    createdAt: "2025-04-10T12:00:00Z",
-  },
-  {
-    id: 6,
-    name: "API Development",
-    description: "Develop the backend API for the application.",
-    owner: { id: 102, name: "Bob Williams" },
-    assignedUsers: [
-      { id: 203, name: "Alice Johnson" },
-      { id: 204, name: "Charlie Brown" },
-    ],
-    tasks: [
-      { id: 304, title: "Setup Database", status: "PENDING", priority: "HIGH" },
-      { id: 305, title: "Implement Authentication", status: "IN_PROGRESS", priority: "MEDIUM" },
-    ],
-    status: "PENDING",
-    createdAt: "2025-04-10T12:00:00Z",
-  },
-  {
-    id: 7,
-    name: "API Development",
-    description: "Develop the backend API for the application.",
-    owner: { id: 102, name: "Bob Williams" },
-    assignedUsers: [
-      { id: 203, name: "Alice Johnson" },
-      { id: 204, name: "Charlie Brown" },
-    ],
-    tasks: [
-      { id: 304, title: "Setup Database", status: "PENDING", priority: "HIGH" },
-      { id: 305, title: "Implement Authentication", status: "IN_PROGRESS", priority: "MEDIUM" },
-    ],
-    status: "PENDING",
-    createdAt: "2025-04-10T12:00:00Z",
-  },
-  {
-    id: 8,
-    name: "API Development",
-    description: "Develop the backend API for the application.",
-    owner: { id: 102, name: "Bob Williams" },
-    assignedUsers: [
-      { id: 203, name: "Alice Johnson" },
-      { id: 204, name: "Charlie Brown" },
-    ],
-    tasks: [
-      { id: 304, title: "Setup Database", status: "PENDING", priority: "HIGH" },
-      { id: 305, title: "Implement Authentication", status: "IN_PROGRESS", priority: "MEDIUM" },
-    ],
-    status: "COMPLETED",
-    createdAt: "2025-04-10T12:00:00Z",
-  },
-];
 
 export default function Dashboard() {
+  const projects = useProjects()
+const tasks = useTasks()
   const { t } = useTranslation();
 
-  const totalProjects = mockProjects.length;
-  const totalTasks = mockProjects.reduce((sum, project) => sum + project.tasks.length, 0);
-  const taskStatusCounts = mockProjects.reduce(
-    (acc, project) => {
-      project.tasks.forEach((task) => {
-        acc[task.status as keyof typeof acc] = (acc[task.status as keyof typeof acc] || 0) + 1;
-      });
+  //@ts-ignore
+  const totalProjects = projects ? projects.length : 0;
+  //@ts-ignore
+  const totalTasks = tasks ? tasks.length : 0;
+    //@ts-ignore
+  const taskStatusCounts = tasks ? tasks.reduce(
+      //@ts-ignore
+    (acc, task) => {
+      acc[task.status as keyof typeof acc] = (acc[task.status as keyof typeof acc] || 0) + 1;
       return acc;
     },
     { PENDING: 0, IN_PROGRESS: 0, COMPLETED: 0 }
-  );
-  const taskPriorityCounts = mockProjects.reduce(
-    (acc, project) => {
-      project.tasks.forEach((task) => {
-        acc[task.priority as keyof typeof acc] = (acc[task.priority as keyof typeof acc] || 0) + 1;
-      });
+  ): { PENDING: 0, IN_PROGRESS: 0, COMPLETED: 0 };
+  //@ts-ignore
+  const taskPriorityCounts = tasks ? tasks.reduce(
+      //@ts-ignore
+    (acc, task) => {
+      acc[task.priority as keyof typeof acc] = (acc[task.priority as keyof typeof acc] || 0) + 1;
       return acc;
     },
     { LOW: 0, MEDIUM: 0, HIGH: 0 }
-  );
+  ): { PENDING: 0, IN_PROGRESS: 0, COMPLETED: 0 };
   
-
+  if (!projects || !tasks) {
+    <section className="container position-relative p-16 h-screen flex flex-col">
+        <h1 className="text-4xl text-primary font-bold mb-6">Dashboard</h1>
+        <p className="text-2xl font-medium text-text-primary dark:text-dark-text-primary">{t("loading")}...</p>
+    </section>
+  }
+  else{
   return (
-    <section className="container p-16 h-screen flex flex-col gap-6">
+    <section className="container p-6 sm:p-16 h-screen flex flex-col gap-6">
       <h1 className="text-4xl text-primary font-bold">{t("dashboard.title", "Dashboard")}</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-grow ">
@@ -154,7 +51,9 @@ export default function Dashboard() {
             <span className="font-bold">{t("projects")}:</span> {totalProjects}
           </p>
           <ul className="list-none max-h-110 overflow-y-auto scrollbar-custom">
-            {mockProjects.map((project) => {
+             {/*@ts-ignore*/}
+            {projects.map((project) => {
+                    {/*@ts-ignore*/} 
               const completedTasks = project.tasks.filter((task) => task.status === "COMPLETED").length;
                 return (
               <li  key={project.id} className="px-6">
@@ -229,4 +128,5 @@ export default function Dashboard() {
       </div>
     </section>
   );
+}
 }

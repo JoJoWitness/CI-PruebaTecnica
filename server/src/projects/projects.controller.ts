@@ -1,20 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, NotFoundException, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, NotFoundException, ParseIntPipe, UseGuards, ForbiddenException, Request } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
-import { Project, ProjectStatus } from '@prisma/client';
-
-
+import { Project, Role } from '@prisma/client';
 import { CreateProjectDto, UpdateProjectDto } from './dto/project.dto';
-
-
+import { Roles } from 'src/auth/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('projects')
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) { }
 
-    // TODO: Add Guard
-    // TODO: role decorator on auth
-    // @UseGuards(JwtAuthGuard)
-    // @Roles(Role.ADMIN) 
+    @UseGuards(JwtAuthGuard)
     @Get()
     async projects(): Promise<Project[]> {
         const projects = await this.projectsService.projects({});
@@ -24,53 +20,61 @@ export class ProjectsController {
         return projects
     }
 
-    // TODO: Add Guard
-    // TODO: role decorator on auth
-    // @UseGuards(JwtAuthGuard)
-    // @Roles(Role.ADMIN, Role.SUPERVISOR) 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ADMIN, Role.SUPERVISOR)
     @Post()
     async createProject(@Body() data: CreateProjectDto): Promise<Project> {
-   
-
-
-  
-    const users = (data.assignedUsersID || []).map((id) => ({ id }));
-
-    return await this.projectsService.createProject({
-        name: data.name,
-        description: data.description,
-        owner: { connect: { id: data.ownerId } }, 
-        assignedUsers: { connect: users },
-        status: data.status as ProjectStatus,
-        tasks: {}
-    });
-    }
-
-    // TODO: Add Guard
-    // TODO: role decorator on auth
-    // @UseGuards(JwtAuthGuard)
-    // @Roles(Role.ADMIN, Role.SUPERVISOR) //Supervisor if owner
-    @Put(':id')
-    async updateProject(@Param('id', ParseIntPipe) id: number,@Body() data: UpdateProjectDto): Promise<Project> {
         const users = data.assignedUsersID.map((id) => ({ id })) || [];
-        
-        return await this.projectsService.updateProject({
-            where: { id},
-            data: {
-                name: data.name,
-                description: data.description,
-                status: data.status as ProjectStatus,
-                assignedUsers: {
-                    set: users, 
-                },
-            },
+
+        return await this.projectsService.createProject({
+            ...data,
+            // name: data.name,
+            // description: data.description,
+            owner: { connect: { id: data.ownerId } },
+            assignedUsers: { connect: users },
+            status: data.status,
+            tasks: {}
         });
     }
 
-    // TODO: Add Guard
-    // TODO: role decorator on auth
-    // @UseGuards(JwtAuthGuard)
-    // @Roles(Role.ADMIN) 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ADMIN, Role.SUPERVISOR)
+    @Put(':id')
+    async updateProject(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() data: UpdateProjectDto,
+        @Request() req,
+    ): Promise<Project> {
+        const users = data.assignedUsersID.map((id) => ({ id })) || [];
+
+        const project = await this.projectsService.project({ id });
+        if (!project) {
+            throw new NotFoundException();
+        }
+        // *check if supervisor is the owner, if not throw Forbidden
+        if (
+            req.user.role === Role.SUPERVISOR
+            && project.ownerId !== data.ownerId
+        ) {
+            throw new ForbiddenException();
+        }
+
+        return await this.projectsService.updateProject({
+            where: { id },
+            data: {
+                ...data,
+                // name: data.name,
+                // description: data.description,
+                owner: data.ownerId ? { connect: { id: data.ownerId } } : undefined,
+                assignedUsers: {
+                    set: users
+                },
+            }
+        });
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.ADMIN)
     @Delete(':id')
     async deleteProject(@Param('id', ParseIntPipe) id: number): Promise<Project> {
         const ok = await this.projectsService.deleteProject({ id });
